@@ -12,20 +12,19 @@
       loop:
         - awscli
         - ocp4tools
+    when:
+      - only_post_install != True
 
     - name: '[OCP4-AUTO-INSTALL][INSTALL] Installation of the OCP4 Cluster'
       include_role:
         name: "{{ item }}"
       loop:
         - ocp4-install
+    when:
+      - only_post_install != True
 
-#    - name: '[OCP4-AUTO-INSTALL][INSTALL] Execute post install tasks'
-#      include_role:
-#        name: "{{ item }}"
-#      loop:
-#        - ocp4-post
-#        - awscli
-#        - efk
-#        - monitoring
-#      when:
-#        - var_cluster_instruction != "destroy"
+    - name: '[OCP4-AUTO-INSTALL][INSTALL] Execute post install tasks'
+      include_role:
+        name: "{{ item }}"
+      loop:
+        - ocp4-post

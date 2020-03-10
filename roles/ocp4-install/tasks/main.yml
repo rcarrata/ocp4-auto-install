@@ -1,0 +1,110 @@
+---
+
+- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Create bin directory'
+  file:
+    path: "{{ user_path }}/.ssh"
+    state: directory
+
+- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Generate SSH keys'
+  openssh_keypair:
+    type: ed25519
+    path: "{{ user_path }}/.ssh/id_rsa"
+
+- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Slurp public key'
+  slurp:
+    path: "{{ user_path }}/.ssh/id_rsa.pub"
+  register: idrsapub
+
+- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Create cluster directory'
+  file:
+    path: "{{ user_path }}"
+    state: directory
+
+- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Generate config install-config.yaml'
+  template:
+    src: install-config.yaml.j2
+    dest: "{{ user_path }}/install-config.yaml"
+
+- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Make a copy of the cluster install config for backup purposes'
+  copy:
+    src: "{{ user_path }}/install-config.yaml"
+    dest: "{{ user_path }}/install-config.yaml.bck"
+
+#- name: Run the installer
+#  command: openshift-install create cluster --dir={{ user_path }}
+#  async: "{{ 2 * 60 * 60 }}"
+
+- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Install in background tmux, run <<tmux a>> to monitor'
+  shell: "bash -c 'tmux new-session -d -s ocpcreate \"bash --init-file <({{ user_path }}/openshift-install create cluster --dir={{ user_path }} --log-level debug)\"'"
+
+- name: Check pid of openshift-install
+  pids:
+    name: openshift-install
+  register: installer_pids
+
+- name: Wait for the main installer to finish - may take around 25 minutes
+  wait_for:
+    path: "/proc/{{ installer_pid }}/status"
+    state: absent
+    timeout: 3600
+  loop: "{{ installer_pids.pids }}"
+  loop_control:
+    loop_var: installer_pid
+
+# Apply node labels:
+- name: Interrogate cluster
+  k8s_facts:
+    api_version: config.openshift.io/v1
+    kind: Infrastructure
+    name: cluster
+  register: infradata
+
+- name: Capture nodes
+  k8s_facts:
+    kind: Node
+  register: nodedata
+
+#- name: Apply the application label to the worker nodes
+#  k8s:
+#    kubeconfig: "{{ lookup('env','KUBECONFIG') }}"
+#    api_version: v1
+#    kind: Node
+#    name: "{{ node.metadata.name }}"
+#    definition:
+#      metadata:
+#        labels:
+#          node-role.kubernetes.io/application: ""
+#  loop: "{{ nodedata.resources }}"
+#  loop_control:
+#    loop_var: node
+#  when:
+#    - node.metadata.labels['node-role.kubernetes.io/worker'] is defined
+#    - node.metadata.labels['node-role.kubernetes.io/infra'] is not defined
+#
+## Grab the machinesets
+#- name: Grab the machinesets
+#  k8s_facts:
+#    api_version: machine.openshift.io/v1beta1
+#    kind: MachineSet
+#    namespace: openshift-machine-api
+#  register: machinesets
+#  when: var_cluster_instruction == "create"
+#
+#- name: apply the same label to the default worker machineset stanza
+#  k8s:
+#    kubeconfig: "{{ lookup('env','KUBECONFIG') }}"
+#    api_version: machine.openshift.io/v1beta1
+#    kind: MachineSet
+#    name: "{{ machineset.metadata.name }}"
+#    namespace: openshift-machine-api
+#    definition:
+#      spec:
+#        template:
+#          spec:
+#            metadata:
+#              labels:
+#                node-role.kubernetes.io/application: ""
+#  loop: "{{ machinesets.resources }}"
+#  loop_control:
+#    loop_var: machineset
+#  when: machineset.metadata.name is search ("worker")

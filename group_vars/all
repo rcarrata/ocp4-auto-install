@@ -1,0 +1,11 @@
+# Global Vars
+
+user_path: "{{ playbook_dir }}/.{{ cluster_name }}"
+container_dir: "/root"
+
+# Specific vars name
+cluster_name: ocp4-ipi-aws
+
+## Values hidden in vault
+#aws_secret_access_key_id: SECRET
+#aws_secret_access_key: SECRET

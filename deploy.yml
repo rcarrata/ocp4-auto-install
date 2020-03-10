@@ -1,0 +1,25 @@
+---
+- name: '[OCP4-AUTO-INSTALL] Deploy an Openshift4 cluster'
+  hosts: localhost
+  connection: local
+  vars_files:
+    - vars/vars.yml
+  tasks:
+    - name: '[OCP4-AUTO-INSTALL][PREREQS] Prerequisites for the installation'
+      include_role:
+        name: "{{ item }}"
+      loop:
+        - awscli
+
+
+
+    - name: Run post install tasks
+      include_role:
+        name: "{{ item }}"
+      loop:
+        - ocp4-post
+        - awscli
+        - efk
+        - monitoring
+      when:
+        - var_cluster_instruction != "destroy"

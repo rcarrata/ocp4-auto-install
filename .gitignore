@@ -1,2 +1,3 @@
 vault/vault.yml
 vault/*
+.vault-password-file

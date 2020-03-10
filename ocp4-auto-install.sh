@@ -1,6 +1,6 @@
 #!/bin/bash
 
-podman build -t ocp4-auto-install:latest images/ocp4-auto-install
+podman build -t ocp4-auto-install:latest images/
 
 podman rm -fi ocp4-auto-install
 

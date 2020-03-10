@@ -1,7 +1,7 @@
 ---
-- name: '[OCP4-AUTO-INSTALL][PREREQS-OCPTOOLS]  Download the required ocp4 tooling'
+- name: '[OCP4-AUTO-INSTALL][PREREQS-OCPTOOLS] Download the required ocp4 tooling'
   get_url:
-    url: "{{ var_installer_baseurl }}{{ pkg }}"
+    url: "{{ var_installer_baseurl }}/{{ pkg }}"
     dest: "{{ container_dir }}/{{ pkg }}"
   loop:
     - "{{ var_installer_program }}"
@@ -14,7 +14,7 @@
     name: "{{ container_dir }}/tools"
     state: directory
 
- - name: '[OCP4-AUTO-INSTALL][PREREQS-OCPTOOLS]  Ensure downloaded installers are unarchived'
+- name: '[OCP4-AUTO-INSTALL][PREREQS-OCPTOOLS] Ensure downloaded installers are unarchived'
   unarchive:
     src: "{{ container_dir }}/{{ pkg }}"
     dest: "{{ container_dir }}/tools/"
@@ -24,12 +24,12 @@
   loop_control:
     loop_var: pkg
 
-- name: '[OCP4-AUTO-INSTALL][PREREQS-OCPTOOLS]  Set in the environment where cluster installer tools live'
+- name: '[OCP4-AUTO-INSTALL][PREREQS-OCPTOOLS] Set in the environment where cluster installer tools live'
   lineinfile:
     path: "{{ container_dir }}/.bash_profile"
     line: "{{ linetoadd }}"
   loop:
-    - "export KUBECONFIG={{ container_dir }}/ocp/{{ var_cluster_base_domain }}/auth/kubeconfig"
+    - "export KUBECONFIG={{ user_path }}/auth/kubeconfig"
     - export PATH=$PATH:{{ container_dir }}/tools/
   loop_control:
     loop_var: linetoadd

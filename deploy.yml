@@ -11,7 +11,7 @@
         name: "{{ item }}"
       loop:
         - awscli
-        - ocp4-tools
+        - ocp4tools
 
     - name: '[OCP4-AUTO-INSTALL][INSTALL] Installation of the OCP4 Cluster'
       include_role:

@@ -1,3 +1,4 @@
 vault/vault.yml
 vault/*
 .vault-password-file
+.ocp4-rcarrata*

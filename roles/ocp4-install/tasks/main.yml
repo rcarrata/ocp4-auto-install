@@ -35,14 +35,14 @@
 #  async: "{{ 2 * 60 * 60 }}"
 
 - name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Install in background tmux, run <<tmux a>> to monitor'
-  shell: "bash -c 'tmux new-session -d -s ocpcreate \"bash --init-file <({{ user_path }}/openshift-install create cluster --dir={{ user_path }} --log-level debug)\"'"
+  shell: "bash -c 'tmux new-session -d -s ocpcreate \"bash --init-file <({{ container_dir }}/tools/openshift-install create cluster --dir={{ user_path }} --log-level debug)\"'"
 
-- name: Check pid of openshift-install
+- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG]Check pid of openshift-install'
   pids:
     name: openshift-install
   register: installer_pids
 
-- name: Wait for the main installer to finish - may take around 25 minutes
+- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Wait for the main installer to finish - may take around 25 minutes'
   wait_for:
     path: "/proc/{{ installer_pid }}/status"
     state: absent
@@ -52,14 +52,14 @@
     loop_var: installer_pid
 
 # Apply node labels:
-- name: Interrogate cluster
+- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Interrogate cluster'
   k8s_facts:
     api_version: config.openshift.io/v1
     kind: Infrastructure
     name: cluster
   register: infradata
 
-- name: Capture nodes
+- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Capture nodes'
   k8s_facts:
     kind: Node
   register: nodedata

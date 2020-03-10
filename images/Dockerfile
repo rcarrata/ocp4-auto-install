@@ -1,4 +1,4 @@
 FROM centos:8
 
-RUN dnf -y upgrade && dnf -y install git unzip jq wget python3 python3-pip gcc libffi-devel openssl-devel tmux unzip vim
-RUN pip3 install ansible yq ansible-lint
+RUN dnf -y upgrade && dnf -y install git unzip jq wget python3 python3-pip gcc libffi-devel openssl-devel tmux unzip vim python3-dev
+RUN pip3 install ansible yq ansible-lint psutil

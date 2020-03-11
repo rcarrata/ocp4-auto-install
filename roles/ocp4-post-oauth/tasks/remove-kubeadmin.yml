@@ -1,0 +1,18 @@
+- name: Remove kubeadmin User
+  when:
+  - ocp4_idm_admin_user is defined
+  - ocp4_idm_install != "none"
+  - ocp4_idm_remove_kubeadmin | bool
+  block:
+  - name: Remove kubeadmin user secret
+    k8s:
+      state: absent
+      api_version: v1
+      kind: Secret
+      namespace: kube-system
+      name: kubeadmin
+
+  - name: Remove kubeadmin file
+    file:
+      state: absent
+      path: "/home/{{ ansible_user }}/{{ cluster_name }}/auth/kubeadmin-password"

@@ -1,0 +1,4 @@
+---
+
+# TODO: Convert this with the OC module
+#- oc adm policy remove-cluster-role-from-group self-provisioner system:authenticated:oauth || true

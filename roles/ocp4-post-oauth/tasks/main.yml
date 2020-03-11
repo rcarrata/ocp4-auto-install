@@ -1,0 +1,21 @@
+---
+
+# Do not modify this file
+- debug:
+    var: action
+
+- block:
+    - import_tasks: oauth-htpasswd.yml
+  when: oauth == "htpasswd"
+
+- block:
+    - import_tasks: oauth-ldap.yml
+  when: oauth == "ldap"
+
+- block:
+    - import_tasks: oauth-azuread.yml
+  when: oauth == "azuread"
+
+- block:
+    - import_tasks: oauth-azuread.yml
+  when: remove_kubeadmin

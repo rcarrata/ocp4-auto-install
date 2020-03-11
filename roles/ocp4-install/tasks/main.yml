@@ -37,7 +37,7 @@
 - name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Install in background tmux, run <<tmux a>> to monitor'
   shell: "bash -c 'tmux new-session -d -s ocpcreate \"bash --init-file <({{ container_dir }}/tools/openshift-install create cluster --dir={{ user_path }} --log-level debug)\"'"
 
-- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG]Check pid of openshift-install'
+- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Check pid of openshift-install'
   pids:
     name: openshift-install
   register: installer_pids

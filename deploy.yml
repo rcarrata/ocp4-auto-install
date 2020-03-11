@@ -23,8 +23,9 @@
       when:
         - only_post_install != True
 
-    - name: '[OCP4-AUTO-INSTALL][INSTALL] Execute post install tasks'
+    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL] Execute post install tasks'
       include_role:
         name: "{{ item }}"
       loop:
-        - ocp4-post
+        #- ocp4-post-install
+        - ocp4-post-oauth

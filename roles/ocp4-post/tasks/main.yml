@@ -1,2 +1,19 @@
 ---
 # tasks file for ocp4-post
+
+- block:
+    - import_tasks: worker-nodes.yml
+  when: worker_nodes == True
+
+- block:
+    - import_tasks: infra-nodes.yml
+  when: infra_nodes == True
+
+- block:
+    - import_tasks: logging.yml
+  when: logging == True
+
+- block:
+    - import_tasks: monitoring.yml
+  when: monitoring == True
+

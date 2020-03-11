@@ -21,6 +21,8 @@ worker_instance_count: 3
 
 ## Post Install Vars
 only_post_install: True
+worker_nodes: True
 infra_nodes: True
-logging: True
-monitoring: True
+logging: False
+monitoring: False
+

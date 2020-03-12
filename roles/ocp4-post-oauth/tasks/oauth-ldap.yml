@@ -10,7 +10,7 @@
 
 - name: '[OCP4-POST-OAUTH][OCP4-LDAP] Setup OpenTLC LDAP Authentication'
   block:
-  - name: Check for LDAP Bind Password
+  - name: '[OCP4-POST-OAUTH][OCP4-LDAP] Check for LDAP Bind Password'
     fail:
       msg: LDAP Authentication is configured but LDAP BindPassword (ocp4_idm_ldap_bindPassword) is not defined.
     when: ocp4_idm_ldap_bindPassword is not defined

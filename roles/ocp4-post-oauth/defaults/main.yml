@@ -22,10 +22,6 @@ ocp4_idm_htpasswd_admin_password: hashmeinvault
 # Set a password for all htpasswd users
 ocp4_idm_htpasswd_user_password: hashmeinvault
 
-# Remove Kubeadmin user upon successful installation of Authentication
-ocp4_idm_remove_kubeadmin: true
-remove_kubeadmin: false
-
 # Azure AD settings
 # -----------------
 

@@ -21,8 +21,8 @@ spec:
         - uid
       bindDN: "{{ ocp4_idm_ldap_bind_dn }}"
       bindPassword:
-        name: opentlc-ldap-secret
+        name: ldap-secret
       insecure: false
       ca:
-        name: opentlc-ldap-ca-cert
+        name: ldap-ca-cert
       url: "{{ ocp4_idm_ldap_url }}"

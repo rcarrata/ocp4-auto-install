@@ -11,6 +11,7 @@ ocp4_idm_ldap_bind_dn: "uid=ose-mwl-auth,cn=users,cn=accounts,dc=opentlc,dc=com"
 
 # htpasswd settings
 # -----------------
+
 # Base of the users for htpasswd
 ocp4_idm_htpasswd_user_base: user
 ocp4_idm_htpasswd_user_count: 20
@@ -23,14 +24,15 @@ ocp4_idm_htpasswd_user_password: hashmeinvault
 
 # Remove Kubeadmin user upon successful installation of Authentication
 ocp4_idm_remove_kubeadmin: true
-remove_kubeadmin: true
+remove_kubeadmin: false
 
 # Azure AD settings
 # -----------------
-#
 
-#Tobecompleted: hash
+#Tobefilled: hash
 
 # Google OAuth settings
 # -----------------
-#
+
+#Tobefilled: hash
+

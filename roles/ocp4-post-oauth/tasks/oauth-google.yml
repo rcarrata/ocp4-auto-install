@@ -1,0 +1,39 @@
+#envsubst < 01_oauth/openid-client-secret.yaml.tpl > openid-client-secret.yaml
+#envsubst < 01_oauth/oauth.yaml.tpl > oauth.yaml
+#envsubst < 01_oauth/oauth-logout.yaml.tpl > oauth-logout.yaml
+#oc apply -f openid-client-secret.yaml
+#oc apply -f oauth.yaml
+#oc patch --type=merge console.config.openshift.io/cluster --patch "$(cat oauth-logout.yaml)"
+#oc adm policy remove-cluster-role-from-group self-provisioner system:authenticated:oauth || true
+#oc logout
+
+- name: '[OCP4-POST-OAUTH][OCP4-GOOGLEAUTH] Ensure Google OAuth Secret'
+  k8s:
+    state: absent
+    api_version: v1
+    kind: Secret
+    name: google-openid-client-secret
+    namespace: openshift-config
+
+- name: '[OCP4-POST-OAUTH][OCP4-GOOGLEAUTH] Update Google OAuth Secret Configuration'
+  k8s:
+    state: present
+    merge_type:
+    - strategic-merge
+    - merge
+    definition: "{{ lookup('template', item ) | from_yaml }}"
+  loop:
+  - ./templates/google-openid-client-secret.j2
+
+#  - name: '[OCP4-POST-OAUTH][OCP4-LDAP] Create LDAP Bind Password Secret'
+#    shell: "{{ container_dir }}/tools oc create secret generic google-openid-client-secret --from-literal=clientSecret=\"{{ google-clientsecret }}\" -n openshift-config"
+
+- name: '[OCP4-POST-OAUTH][OCP4-GOOGLEAUTH] Update OAuth Configuration'
+  k8s:
+    state: present
+    merge_type:
+    - strategic-merge
+    - merge
+    definition: "{{ lookup('template', item ) | from_yaml }}"
+  loop:
+  - ./templates/oauth-google.j2

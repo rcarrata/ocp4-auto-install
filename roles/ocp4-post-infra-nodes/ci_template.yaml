@@ -1,0 +1,33 @@
+.infra_nodes:
+  stage: infra_nodes
+  image: ${OCP4_IMAGE_INSTALLATION}
+  variables:
+    ami_id: ami-0e2df006870846a18
+    instanceType: m4.large
+    MAX_RETRIES: 100
+    replicas_eu_central_1a: 1
+    replicas_eu_central_1b: 1
+    replicas_eu_central_1c: 1
+  extends:
+    - .get_token
+  script:
+    # Get the infraid and the infra_node
+    - export infraID=$(oc get infrastructures cluster -o=jsonpath='{.status.infrastructureName}')
+    # Render and apply the infra nodes
+    - let RETRIES=0 && true
+    - >
+      for infra_node in "infra-${AWS_REGION}a" "infra-${AWS_REGION}b" "infra-${AWS_REGION}c"; do
+        export az=$(echo "${infra_node}" | sed "s/infra-//")
+        export infra_node="${infra_node}"
+        export REPLICAS="replicas_$(echo $az | sed 's/\-/_/g')"
+        export replicas="${!REPLICAS}"
+        envsubst < 02_infra_nodes/ocp4-infra-eu-central-1.yaml.tpl > ${infra_node}.yaml
+        oc apply -f ${infra_node}.yaml
+        until [[ "$(oc get machineset -n openshift-machine-api "${infraID}-${infra_node}" -o jsonpath='{.status.readyReplicas}')" ]] || [ $RETRIES -eq ${MAX_RETRIES} ]; do
+          sleep 10;
+          let RETRIES=RETRIES+1;
+          echo "not ready"
+        done
+      done
+    - oc logout
+

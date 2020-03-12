@@ -23,8 +23,8 @@ worker_instance_count: 3
 only_post_install: True
 # OAuth
 oauth: htpasswd
-remove_kubeadmin: False
-remove_self_provisioning: False
+removekubeadmin: False
+removeselfprovisioning: False
 # Worker Nodes
 worker_nodes: True
 # Infra Nodes

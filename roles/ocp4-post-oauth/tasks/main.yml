@@ -22,8 +22,8 @@
 
 - block:
     - import_tasks: remove-kubeadmin.yml
-  when: remove-kubeadmin
+  when: removekubeadmin == True
 
 - block:
     - import_tasks: remove-self-provisioner.yml
-  when: remove-self-provisioner
+  when: removeselfprovisioner == True

@@ -18,4 +18,12 @@
 
 - block:
     - import_tasks: oauth-azuread.yml
+  when: oauth == "google"
+
+- block:
+    - import_tasks: remove-kubeadmin.yml
   when: remove_kubeadmin
+
+- block:
+    - import_tasks: remove-self-provisioning.yml
+  when: remove_self_provisioning

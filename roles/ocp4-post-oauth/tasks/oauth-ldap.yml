@@ -15,7 +15,7 @@
       msg: LDAP Authentication is configured but LDAP BindPassword (ocp4_idm_ldap_bindPassword) is not defined.
     when: ocp4_idm_ldap_bindPassword is not defined
 
-  - name: '[OCP4-POST-OAUTH][OCP4-LDAP]  Get IPA CA Cert'
+  - name: '[OCP4-POST-OAUTH][OCP4-LDAP] Get IPA CA Cert'
     get_url:
       url: "{{ ocp4_idm_ldap_ca_url }}"
       dest: "{{ user_path }}/ipa-ca.crt"

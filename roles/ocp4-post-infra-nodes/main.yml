@@ -1,0 +1,56 @@
+---
+# that the current
+- name: Create clusterlogging custom resource definition
+  # k8s_info:
+  k8s_facts:
+    api_version: config.openshift.io/v1
+    kind: Infrastructure
+    name: cluster
+  register: out
+
+- k8s_facts:
+    api_version: config.openshift.io/v1
+    kind: Infrastructure
+    name: cluster
+  register: out
+
+- name: Display what cluster I intend to operate on
+  debug:
+    var: out
+
+- name: Fine ami in {{ out.resources.0.status.infrastructureName }}-master-0
+  k8s_facts:
+    api_version: machine.openshift.io/v1beta1
+    kind: Machine
+    name: "{{ out.resources.0.status.infrastructureName }}-master-0"
+    namespace: openshift-machine-api
+  register: master0
+
+- name: Assemble the dictionary
+  set_fact:
+    machineset:
+      infrastructure_id: "{{ out.resources.0.status.infrastructureName }}"
+      region: "{{ out.resources.0.status.platformStatus.aws.region }}"
+      node_labels: "{{ node_labels }}"
+      zone_suffixes: "{{ zone_suffixes }}"
+      aws_ami: "{{ master0.resources.0.spec.providerSpec.value.ami.id }}"
+      disk_size: "{{ disk_size }}"
+      instance_type: "{{ instance_type }}"
+      name_identifier: "{{ name_identifier }}"
+
+- name: Display the data that will be used to create a new machineset
+  debug:
+    var: machineset
+
+- name: Create the machineset
+  k8s:
+    kubeconfig: "{{ lookup('env','KUBECONFIG') }}"
+    name: openshift-machine-api
+    api_version: machine.openshift.io/v1beta1
+    kind: MachineSet
+    state: present
+    resource_definition: "{{ lookup('template', 'templates/machineset.j2') }}"
+    validate_certs: false
+  loop: "{{ zone_suffixes }}"
+  loop_control:
+    loop_var: zone_suffix

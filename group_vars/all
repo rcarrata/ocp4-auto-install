@@ -2,3 +2,21 @@
 
 user_path: "{{ playbook_dir }}/.{{ cluster_name }}"
 container_dir: "/root"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

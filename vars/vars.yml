@@ -21,15 +21,24 @@ worker_instance_count: 3
 
 #### Post Install Vars
 only_post_install: True
+
 # OAuth
 oauth: htpasswd
 removekubeadmin: False
 removeselfprovisioning: False
+
 # Worker Nodes
 worker_nodes: True
+
 # Infra Nodes
 infra_nodes: True
+disk_size: 1024
+instance_type: r5.xlarge
+name_identifier: "{{ name_label.0 }}"
+
+
 # Logging
 logging: False
+
 # Monitoring
 monitoring: False

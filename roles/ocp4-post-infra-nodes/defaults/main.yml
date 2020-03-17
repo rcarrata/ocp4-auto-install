@@ -1,0 +1,6 @@
+---
+# defaults file for ocp4-post-infra-nodes
+zone_suffixes:
+  - a
+  - b
+  - c

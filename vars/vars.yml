@@ -2,7 +2,6 @@
 
 ## Cluster Vars
 ocp4_version: '4.3.3'
-ocp4_version: '4.3.3'
 cloud_provider: 'ec2'
 cluster_name: 'ocp4-rcarrata'
 ocp4_base_domain: '4bc6.sandbox919.opentlc.com'

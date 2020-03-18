@@ -27,5 +27,5 @@
       include_role:
         name: "{{ item }}"
       loop:
-        #- ocp4-post-install
+        - ocp4-post-install
         - ocp4-post-oauth

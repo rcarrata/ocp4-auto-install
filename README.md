@@ -1,2 +1,129 @@
-# ocp4-auto-install
-Automatic OCP4 IPI AWS installer
+# OCP4 AUTO INSTALL
+
+This repository provides a way for deploying openshift4 IPI in AWS (and Azure in WIP)
+and perform the Post Install and Day2Operations
+
+Openshift installer is used along with Ansible for creation and customization of the Openshift Cluster.
+
+The main features are:
+
+* Easy deployment of OCP4 cluster IPI in AWS or Azure
+* No Bastion needed and no local installation (installation and configuration within a container)
+* Configuration of the PostInstall and Day2Operations
+* Low Requirements for the deployment (only podman is needed)
+* Fully running in RHEL, Fedora and Centos
+* Modularized for working certain day2ops
+* Idempotent (I hope!) and repetible
+
+## Requirements
+
+* Podman
+* Some hope and time :)
+
+## Fill/Customize the Variables
+
+Copy or generate the vars.yml and customize to fill your needs:
+
+```
+cp -pr examples/vars.yml vars/vars.yml
+```
+
+Generate a Vault-File with the credentials of AWS/Azure and OCP4 PullSecret:
+
+```
+$ ansible-vault edit vault/vault.yml
+```
+
+and fill inside the vault:
+
+```
+aws_access_key_id: SECRET
+aws_secret_access_key: SECRET
+ocp4_pull_secret: '<<< pull_secret_azure >>>'
+```
+
+## Automated deployment end2end of Openshift4 cluster (end2end)
+
+Execute and wait a little bit:
+
+```
+./ocp4-auto-install.sh
+```
+
+In this way, podman will be used for build and run the centos8 container that will be used for the installation and configuration of the Openshift4 cluster.
+
+## Custom Deployment
+
+The container for the installation could be used for Post Install or Day2Operations without deploy the whole cluster
+
+## Customizations
+
+#### Openshift Cluster Variables
+
+```
+ocp4_version: '4.3.3'
+ocp4_version: '4.3.3'
+cloud_provider: 'ec2' or 'azure'
+cluster_name: 'myfancycluster'
+ocp4_base_domain: 'yourbasedomain'
+aws_region: eu-central-1
+master_instance_type: m5.xlarge
+master_instance_count: 3
+worker_instance_type: m5.xlarge
+worker_instance_count: 3
+```
+
+#### Day2Operations Variables
+
+* Deploy only the post-install without deploy the cluster
+
+```
+only_post_install: False
+```
+
+* Configure the OAuth
+
+```
+# OAuth
+oauth: htpasswd
+removekubeadmin: False
+removeselfprovisioning: False
+```
+
+* Deploy worker nodes (WIP)
+
+```
+# Worker Nodes
+worker_nodes: True
+```
+
+* Deploy infra nodes (WIP)
+
+```
+# Infra Nodes
+infra_nodes: True
+disk_size: 1024
+instance_type: r5.xlarge
+name_identifier: "{{ name_label.0 }}"
+```
+
+* Deploy Logging EFK (WIP)
+
+```
+# Logging
+logging: True
+```
+
+* Deploy Monitoring (WIP)
+
+```
+# Monitoring
+monitoring: True
+```
+
+* Deploy OCS4 (WIP)
+
+```
+# OCS4
+ocs: True
+```

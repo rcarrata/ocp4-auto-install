@@ -8,7 +8,7 @@ Openshift installer is used along with Ansible for creation and customization of
 The main features are:
 
 * Easy deployment of OCP4 cluster IPI in AWS or Azure
-* No Bastion needed and no local installation (installation and configuration within a container)
+* No Bastion needed and no local software additional installation (installation and configuration within a container)
 * Configuration of the PostInstall and Day2Operations
 * Low Requirements for the deployment (only podman is needed)
 * Fully running in RHEL, Fedora and Centos

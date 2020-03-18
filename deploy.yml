@@ -14,18 +14,34 @@
         - ocp4tools
       when:
         - only_post_install != True
+        - ocptools == True
 
     - name: '[OCP4-AUTO-INSTALL][INSTALL] Installation of the OCP4 Cluster'
       include_role:
-        name: "{{ item }}"
-      loop:
-        - ocp4-install
+        name: "ocp4-install"
       when:
         - only_post_install != True
 
-    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL] Execute post install tasks'
+    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL] Configure the Post Install for OAuth'
       include_role:
-        name: "{{ item }}"
-      loop:
-        - ocp4-post-install
-        - ocp4-post-oauth
+        name: "ocp4-post-oauth"
+      when:
+        - oauth is defined
+
+    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL] Configure the Post Install for Infra Nodes'
+      include_role:
+        name: "ocp4-post-infra-nodes"
+      when:
+        - infra_node == True
+
+#    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL] Configure the Post Install for Logging'
+#      include_role:
+#        name: "ocp4-post-logging"
+#      when:
+#        - infra_node == True
+
+#    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL] Configure the Post Install for Monitoring'
+#      include_role:
+#        name: "ocp4-post-monitoring"
+#      when:
+#        - monitoring == True

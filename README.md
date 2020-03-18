@@ -46,6 +46,11 @@ for obtain the pull_secret go to [OCP4 Install](https://cloud.redhat.com/openshi
 
 * Generate the .vault-password-file and put the password
 
+```
+touch .vault-password-file
+echo "yourpasswordfancy" >> .vault-password-file
+```
+
 ## Automated deployment end2end of Openshift4 cluster (end2end)
 
 Execute and wait a little bit:

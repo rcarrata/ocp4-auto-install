@@ -22,13 +22,13 @@ The main features are:
 
 ## Create/Customize the Variables yaml
 
-Copy or generate the vars.yml and customize to fill your needs:
+* Copy or generate the vars.yml and customize to fill your needs:
 
 ```
 cp -pr examples/vars.yml vars/vars.yml
 ```
 
-Generate a Vault-File with the credentials of AWS/Azure and OCP4 PullSecret:
+* Generate a Vault-File with the credentials of AWS/Azure and OCP4 PullSecret:
 
 ```
 $ ansible-vault edit vault/vault.yml
@@ -44,7 +44,7 @@ ocp4_pull_secret: '<<< pull_secret_azure >>>'
 
 for obtain the pull_secret go to [OCP4 Install](https://cloud.redhat.com/openshift/install)
 
-
+* Generate the .vault-password-file and put the password
 
 ## Automated deployment end2end of Openshift4 cluster (end2end)
 

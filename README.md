@@ -1,4 +1,4 @@
-# OCP4 AUTO INSTALL
+# Openshift4 Auto Install
 
 This repository provides a way for deploying openshift4 IPI in AWS (and Azure in WIP)
 and perform the Post Install and Day2Operations

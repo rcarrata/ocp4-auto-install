@@ -1,6 +1,7 @@
 # Global Vars
 
 user_path: "{{ playbook_dir }}/.{{ cluster_name }}"
+## To be changed
 container_dir: "/root"
 
 

@@ -20,7 +20,7 @@ The main features are:
 * Podman
 * Some hope and time :)
 
-## Fill/Customize the Variables
+## Create/Customize the Variables yaml
 
 Copy or generate the vars.yml and customize to fill your needs:
 
@@ -34,13 +34,15 @@ Generate a Vault-File with the credentials of AWS/Azure and OCP4 PullSecret:
 $ ansible-vault edit vault/vault.yml
 ```
 
-and fill inside the vault:
+and fill inside the vault.yml with:
 
 ```
 aws_access_key_id: SECRET
 aws_secret_access_key: SECRET
 ocp4_pull_secret: '<<< pull_secret_azure >>>'
 ```
+
+for obtain the pull_secret go to [OCP4 Install](https://cloud.redhat.com/openshift/install)
 
 ## Automated deployment end2end of Openshift4 cluster (end2end)
 
@@ -62,7 +64,6 @@ The container for the installation could be used for Post Install or Day2Operati
 
 ```
 ocp4_version: '4.3.3'
-ocp4_version: '4.3.3'
 cloud_provider: 'ec2' or 'azure'
 cluster_name: 'myfancycluster'
 ocp4_base_domain: 'yourbasedomain'
@@ -81,7 +82,7 @@ worker_instance_count: 3
 only_post_install: False
 ```
 
-* Configure the OAuth
+* Configure the OAuth between htpasswd, ldap, Google OAuth and Azure(wip):
 
 ```
 # OAuth
@@ -89,6 +90,11 @@ oauth: htpasswd
 removekubeadmin: False
 removeselfprovisioning: False
 ```
+
+Azure: azure
+Google OAuth: google
+LDAP/IDM: ldap
+Htpasswd: htpasswd
 
 * Deploy worker nodes (WIP)
 
@@ -104,7 +110,13 @@ worker_nodes: True
 infra_nodes: True
 disk_size: 1024
 instance_type: r5.xlarge
-name_identifier: "{{ name_label.0 }}"
+```
+
+* Deploy OCS4 (WIP)
+
+```
+# OCS4
+ocs: True
 ```
 
 * Deploy Logging EFK (WIP)
@@ -121,9 +133,11 @@ logging: True
 monitoring: True
 ```
 
-* Deploy OCS4 (WIP)
+## TODO:
 
-```
-# OCS4
-ocs: True
-```
+* Run Container in no root mode
+* Build and Push to Quay the image
+* Add more day2ops
+* Customize the SSH-Key to add
+* Add latest version to the installation
+

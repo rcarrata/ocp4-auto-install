@@ -34,10 +34,16 @@
 
 - name: '[OCP4-AUTO-INSTALL][PREREQS]  Create a user-writable directory for tools'
   file:
-    name: "{{ user_path }}/.aws"
+    name: "{{ item }}/.aws"
     state: directory
+  loop:
+    - "{{ container_dir }}"
+    - "{{ user_path }}"
 
 - name: '[OCP4-AUTO-INSTALL][PREREQS] Deploy default aws credentials for this bastion'
   template:
     src: templates/credentials.j2
-    dest: "{{ user_path}}/.aws/credentials"
+    dest: "{{ item }}/.aws/credentials"
+  loop:
+    - "{{ container_dir }}" 
+    - "{{ user_path }}"

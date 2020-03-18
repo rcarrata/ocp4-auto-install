@@ -30,12 +30,12 @@
     src: "{{ user_path }}/install-config.yaml"
     dest: "{{ user_path }}/install-config.yaml.bck"
 
-#- name: Run the installer
-#  command: openshift-install create cluster --dir={{ user_path }}
-#  async: "{{ 2 * 60 * 60 }}"
+- name: Run the installer
+  command: "{{container_dir}}/tools/openshift-install create cluster --dir={{ user_path }} --log-level debug"
+  async: "{{ 2 * 60 * 60 }}"
 
-- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Install in background tmux, run <<tmux a>> to monitor'
-  shell: "bash -c 'tmux new-session -d -s ocpcreate \"bash --init-file <({{ container_dir }}/tools/openshift-install create cluster --dir={{ user_path }} --log-level debug)\"'"
+#- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Install in background tmux, run <<tmux a>> to monitor'
+#  shell: "bash -c 'tmux new-session -d -s ocpcreate \"bash --init-file <({{ container_dir }}/tools/openshift-install create cluster --dir={{ user_path }} --log-level debug)\"'"
 
 - name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Check pid of openshift-install'
   pids:

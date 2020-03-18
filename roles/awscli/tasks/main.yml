@@ -32,7 +32,7 @@
     name: "{{ user_path }}"
     state: directory
 
-- name: '[OCP4-AUTO-INSTALL][PREREQS]  Create a user-writable directory for tools'
+- name: '[OCP4-AUTO-INSTALL][PREREQS] Create a user-writable directory for tools'
   file:
     name: "{{ item }}/.aws"
     state: directory

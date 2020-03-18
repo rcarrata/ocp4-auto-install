@@ -44,6 +44,8 @@ ocp4_pull_secret: '<<< pull_secret_azure >>>'
 
 for obtain the pull_secret go to [OCP4 Install](https://cloud.redhat.com/openshift/install)
 
+
+
 ## Automated deployment end2end of Openshift4 cluster (end2end)
 
 Execute and wait a little bit:

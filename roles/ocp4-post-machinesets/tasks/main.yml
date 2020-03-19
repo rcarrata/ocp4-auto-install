@@ -1,51 +1,45 @@
 ---
-# tasks file for ocp4-post-machinesets
-#
-- name: Create clusterlogging custom resource definition
-  # k8s_info:
+
+- name: '[POSTINSTALL][MACHINESET] Fetch cluster information about the Infrastructure'
   k8s_facts:
+    kubeconfig: "{{ user_path }}/auth/kubeconfig"
     api_version: config.openshift.io/v1
     kind: Infrastructure
     name: cluster
-  register: out
+  register: cluster_info
 
-- k8s_facts:
-    api_version: config.openshift.io/v1
-    kind: Infrastructure
-    name: cluster
-  register: out
-
-- name: Display what cluster I intend to operate on
+- name: '[POSTINSTALL][MACHINESET] Show info about the cluster of OCP4'
   debug:
-    var: out
+    msg: "{{ cluster_info }}"
 
-- name: Fine ami in {{ out.resources.0.status.infrastructureName }}-master-0
+- name: '[POSTINSTALL][MACHINESET] Search and fetch ami id in {{ cluster_info.resources.0.status.infrastructureName }}-master-0 machine'
   k8s_facts:
+    kubeconfig: "{{ user_path }}/auth/kubeconfig"
     api_version: machine.openshift.io/v1beta1
     kind: Machine
-    name: "{{ out.resources.0.status.infrastructureName }}-master-0"
+    name: "{{ cluster_info.resources.0.status.infrastructureName }}-master-0"
     namespace: openshift-machine-api
-  register: master0
+  register: amimaster0
 
-- name: Assemble the dictionary
+- name: '[POSTINSTALL][MACHINESET] Build the {{ node_labels }} machineset facts'
   set_fact:
     machineset:
-      infrastructure_id: "{{ out.resources.0.status.infrastructureName }}"
-      region: "{{ out.resources.0.status.platformStatus.aws.region }}"
+      infrastructure_id: "{{ cluster_info.resources.0.status.infrastructureName }}"
+      region: "{{ cluster_info.resources.0.status.platformStatus.aws.region }}"
       node_labels: "{{ node_labels }}"
       zone_suffixes: "{{ zone_suffixes }}"
-      aws_ami: "{{ master0.resources.0.spec.providerSpec.value.ami.id }}"
+      aws_ami: "{{ amimaster0.resources.0.spec.providerSpec.value.ami.id }}"
       disk_size: "{{ disk_size }}"
       instance_type: "{{ instance_type }}"
       name_identifier: "{{ name_identifier }}"
 
-- name: Display the data that will be used to create a new machineset
+- name: '[POSTINSTALL][MACHINESET] Display the data for the {{ node_labels }} machinesets'
   debug:
     var: machineset
 
-- name: Create the machineset
+- name: '[POSTINSTALL][MACHINESET] Create the {{ node_labels }} machineset'
   k8s:
-    kubeconfig: "{{ lookup('env','KUBECONFIG') }}"
+    kubeconfig: "{{ user_path }}/auth/kubeconfig"
     name: openshift-machine-api
     api_version: machine.openshift.io/v1beta1
     kind: MachineSet

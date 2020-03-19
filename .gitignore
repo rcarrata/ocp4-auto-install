@@ -1,5 +1,6 @@
 vault/vault.yml
 .vault-password-file
 .ocp4-rcarrata*
+.cluster-e805*
 roles/ocp4-post-infra-nodes/99-old/
 vars/vars.yml

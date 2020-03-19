@@ -22,6 +22,18 @@
       when:
         - only_post_install != True
 
+    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL][WORKER-NODES] Configure the Post Install for Worker Nodes'
+      include_role:
+        name: "ocp4-post-worker-nodes"
+      when:
+        - worker_nodes == True
+
+    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL][INFRA-NODES] Configure the Post Install for Infra Nodes'
+      include_role:
+        name: "ocp4-post-infra-nodes"
+      when:
+        - infra_nodes == True
+
     - name: '[OCP4-AUTO-INSTALL][POST-INSTALL][OAUTH] Configure the Post Install for OAuth'
       include_role:
         name: "ocp4-post-oauth"
@@ -29,19 +41,13 @@
         - oauth is defined
         - oauth != False
 
-    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL][INFRA-NODES] Configure the Post Install for Infra Nodes'
-      include_role:
-        name: "ocp4-post-infra-nodes"
-      when:
-        - infra_node == True
-
 #    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL][LOGGING] Configure the Post Install for Logging'
 #      include_role:
 #        name: "ocp4-post-logging"
 #      when:
 #        - infra_node == True
 
-#    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL][MONITORING] Configure the Post Install for Monitoring'
+#    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL] Configure the Post Install for Monitoring'
 #      include_role:
 #        name: "ocp4-post-monitoring"
 #      when:

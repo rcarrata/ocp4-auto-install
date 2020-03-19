@@ -1,49 +1,49 @@
 ---
-# tasks file for ocp4-post-infra-nodes
 
-- name: Grab some global cluster trivia for git to use
+- name: '[POSTINSTALL][INFRA-NODES] Grab some global cluster trivia for git to use'
   k8s_facts:
-    kubeconfig: "{{ lookup('env','KUBECONFIG') }}"
+    kubeconfig: "{{ user_path }}/auth/kubeconfig"
     api_version: config.openshift.io/v1
     kind: Infrastructure
     name: cluster
   register: infradata
 
-- name: deploy infra-shared machinesets
+- name: '[POSTINSTALL][INFRA-NODES] Deploy Infra Nodes MachineSet'
   vars:
-    instance_type: r5.xlarge
+    instance_type: "{{ infra_instance_type }}"
+    disk_size: "{{ infra_disk_size }}"
     node_labels:
-    - infra
-    - infra-shared
+    - "{{ infra_label }}"
     zone_suffixes:
       - a
       - b
       - c
-    name_identifier: infra-shared
+    name_identifier: "{{ infra_label }}"
   include_role:
-    name: machineset
+    name: ocp4-post-machinesets
 
-- name: deploy infra-efk machinesets
-  vars:
-    instance_type: r5.xlarge
-    node_labels:
-    - infra
-    - infra-efk
-    zone_suffixes:
-      - a
-      - b
-      - c
-    name_identifier: infra-efk
-  include_role:
-    name: machineset
+#- name: '[POSTINSTALL][INFRA-NODES] Deploy Infra EFK Nodes MachineSet'
+#  vars:
+#    instance_type: r5.xlarge
+#    node_labels:
+#    - infra
+#    - infra-efk
+#    zone_suffixes:
+#      - a
+#      - b
+#      - c
+#    name_identifier: infra-efk
+#  include_role:
+#    name: machineset
+
 # https://access.redhat.com/solutions/4233311
-- name: Set the default node selector to application - can be overridden with ns annotations
+- name: '[POSTINSTALL][INFRA-NODES] Set the default node selector to application - can be overridden with ns annotations'
   k8s:
-    kubeconfig: "{{ lookup('env','KUBECONFIG') }}"
+    kubeconfig: "{{ user_path }}/auth/kubeconfig"
     api_version: config.openshift.io/v1
     merge_type: merge
     kind: Scheduler
     name: cluster
     definition:
       spec:
-        defaultNodeSelector: 'node-role.kubernetes.io/application='
+        defaultNodeSelector: 'node-role.kubernetes.io/apps='

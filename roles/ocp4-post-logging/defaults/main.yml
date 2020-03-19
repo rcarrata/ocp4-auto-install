@@ -1,2 +1,4 @@
 ---
 # defaults file for ocp4-post-logging
+# Node selector for the clo elements ('node-role.kubernetes.io/infra= ')
+clo_node_selector: ""

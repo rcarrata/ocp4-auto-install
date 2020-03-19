@@ -1,5 +1,4 @@
 ---
-# tasks file for service-mesh
 
 - name: '[POSTINSTALL][SERVICE-MESH] Create Namespace'
   k8s:

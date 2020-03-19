@@ -1,0 +1,6 @@
+---
+- name: Setup CRD
+  k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition: "{{ lookup('template', 'clo-crd.yaml') }}"

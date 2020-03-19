@@ -1,0 +1,46 @@
+---
+# tasks file for service-mesh
+
+- name: '[POSTINSTALL][SERVICE-MESH] Create Namespace'
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'servicemesh-namespace.yml') }}"
+
+- name: '[POSTINSTALL][SERVICE-MESH] Install Operators required for ServiceMesh'
+  k8s:
+    state: present
+    definition: "{{ lookup('template', '{{ item }}.yml') }}"
+    namespace: "openshift-operators"
+  loop: "{{ servicemesh_operators }}"
+
+- name: '[POSTINSTALL][SERVICE-MESH]Make sure the operators are all installed'
+  command: "{{ container_dir }}/tools/oc get clusterserviceversions -n istio-system -o custom-columns='PHASE:status.phase' --no-headers"
+  register: servicemesh_operator_status
+  changed_when: false
+  vars:
+    operator_count: "{{ servicemesh_operator_status.stdout_lines | length }}"
+    succeeded_count: "{{ servicemesh_operator_status.stdout | regex_findall('Succeeded') | length }}"
+  until:
+    - servicemesh_operator_status.stdout_lines
+    - operator_count == succeeded_count
+  delay: 10
+  retries: 60
+
+- name: '[POSTINSTALL][SERVICE-MESH]Install istio servicemesh control plane'
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'istio-installation.yml') }}"
+
+- name: '[POSTINSTALL][SERVICE-MESH] Get ServiceMeshMemberRoll object'
+  k8s_facts:
+    api_version: maistra.io/v1
+    kind: ServiceMeshMemberRoll
+  register: reg_servicemesh_member_roll
+
+# Only install the default servicemesh member roll if once doesn't exist
+- name: '[POSTINSTALL][SERVICE-MESH]Install istio servicemesh member roll'
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'istio-memberroll.yml') }}"
+  when:
+    - not reg_servicemesh_member_roll.resources

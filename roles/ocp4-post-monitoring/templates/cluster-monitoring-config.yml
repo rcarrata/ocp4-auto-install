@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-monitoring-config
+  namespace: openshift-monitoring
+data:
+  config.yaml: |
+    prometheusK8s:
+      nodeSelector:
+        node-role.kubernetes.io/infra: ""
+      retention: "{{ prom_retention }}"
+      volumeClaimTemplate:
+        metadata:
+          name: prometheusdb
+        spec:
+          resources:
+            requests:
+              storage: "{{ prometheus_gp2_storage }}"
+    alertmanagerMain:
+      nodeSelector:
+        node-role.kubernetes.io/infra: ""
+      volumeClaimTemplate:
+        metadata:
+          name: alertmanpvc
+        spec:
+          resources:
+            requests:
+              storage: "{{ alertmanager_gp2_storage }}"
+    prometheusOperator:
+      nodeSelector:
+        node-role.kubernetes.io/infra: ""
+    kubeStateMetrics:
+      nodeSelector:
+        node-role.kubernetes.io/infra: ""
+    grafana:
+      nodeSelector:
+        node-role.kubernetes.io/infra: ""
+    telemeterClient:
+      nodeSelector:
+        node-role.kubernetes.io/infra: ""
+    k8sPrometheusAdapter:
+      nodeSelector:
+        node-role.kubernetes.io/infra: ""
+

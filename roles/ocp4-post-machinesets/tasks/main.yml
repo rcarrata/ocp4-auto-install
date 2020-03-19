@@ -2,7 +2,7 @@
 
 - name: '[POSTINSTALL][MACHINESET] Fetch cluster information about the Infrastructure'
   k8s_facts:
-    kubeconfig: "{{ user_path }}/auth/kubeconfig"
+    kubeconfig: "{{ kubeconfig }}"
     api_version: config.openshift.io/v1
     kind: Infrastructure
     name: cluster
@@ -14,7 +14,7 @@
 
 - name: '[POSTINSTALL][MACHINESET] Search and fetch ami id in {{ cluster_info.resources.0.status.infrastructureName }}-master-0 machine'
   k8s_facts:
-    kubeconfig: "{{ user_path }}/auth/kubeconfig"
+    kubeconfig: "{{ kubeconfig }}"
     api_version: machine.openshift.io/v1beta1
     kind: Machine
     name: "{{ cluster_info.resources.0.status.infrastructureName }}-master-0"
@@ -39,7 +39,7 @@
 
 - name: '[POSTINSTALL][MACHINESET] Create the {{ node_labels }} machineset'
   k8s:
-    kubeconfig: "{{ user_path }}/auth/kubeconfig"
+    kubeconfig: "{{ kubeconfig }}"
     name: openshift-machine-api
     api_version: machine.openshift.io/v1beta1
     kind: MachineSet

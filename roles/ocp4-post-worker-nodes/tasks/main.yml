@@ -2,7 +2,7 @@
 
 - name: '[OCP4_AUTO_INSTALL][OCP4-POSTINSTALL][INFRA-NODES] Interrogate cluster'
   k8s_info:
-    kubeconfig: "{{ user_path }}/auth/kubeconfig"
+    kubeconfig: "{{ kubeconfig }}"
     api_version: config.openshift.io/v1
     kind: Infrastructure
     name: cluster
@@ -10,13 +10,13 @@
 
 - name: '[OCP4_AUTO_INSTALL][OCP4-POSTINSTALL][INFRA-NODES] Capture nodes'
   k8s_facts:
-    kubeconfig: "{{ user_path }}/auth/kubeconfig"
+    kubeconfig: "{{ kubeconfig }}"
     kind: Node
   register: nodedata
 
 - name: '[OCP4_AUTO_INSTALL][OCP4-POSTINSTALL][INFRA-NODES] Apply the application label to the worker nodes'
   k8s:
-    kubeconfig: "{{ user_path }}/auth/kubeconfig"
+    kubeconfig: "{{ kubeconfig }}"
     api_version: v1
     kind: Node
     name: "{{ node.metadata.name }}"
@@ -24,6 +24,7 @@
       metadata:
         labels:
           '{{ worker_label }}': ""
+          #node-role.kubernetes.io/infra: ""
   loop: "{{ nodedata.resources }}"
   loop_control:
     loop_var: node
@@ -34,7 +35,7 @@
 # Grab the machinesets
 - name: '[OCP4_AUTO_INSTALL][OCP4-POSTINSTALL][INFRA-NODES] Grab the machinesets'
   k8s_facts:
-    kubeconfig: "{{ user_path }}/auth/kubeconfig"
+    kubeconfig: "{{ kubeconfig }}"
     api_version: machine.openshift.io/v1beta1
     kind: MachineSet
     namespace: openshift-machine-api
@@ -42,7 +43,7 @@
 
 - name: '[OCP4_AUTO_INSTALL][OCP4-POSTINSTALL][INFRA-NODES] Apply the same label to the default worker machineset stanza'
   k8s:
-    kubeconfig: "{{ user_path }}/auth/kubeconfig"
+    kubeconfig: "{{ kubeconfig }}"
     api_version: machine.openshift.io/v1beta1
     kind: MachineSet
     name: "{{ machineset.metadata.name }}"

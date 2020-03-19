@@ -1,2 +1,11 @@
 ---
-# tasks file for ocp4-post-monitoring
+
+- name: '[POSTINSTALL][INFRA-NODES] Apply cluster-monitoring-config config map'
+  k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    merge_type:
+    - strategic-merge
+    - merge
+    definition: "{{ lookup('template', 'cluster-monitoring-config.yml') }}"
+

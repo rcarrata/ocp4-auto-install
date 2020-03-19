@@ -153,4 +153,6 @@ monitoring: True
 * Add more day2ops
 * Customize the SSH-Key to add
 * Add latest version to the installation
-
+* Expand the logging/monitoring to other nodes dynamically
+* Time Control between infra nodes and the migrate of logging, monitoring, registry
+* Move vault from the first creds and move it after

@@ -2,7 +2,7 @@
 
 - name: '[POSTINSTALL][INFRA-NODES] Grab some global cluster trivia for git to use'
   k8s_facts:
-    kubeconfig: "{{ user_path }}/auth/kubeconfig"
+    kubeconfig: "{{ kubeconfig }}"
     api_version: config.openshift.io/v1
     kind: Infrastructure
     name: cluster
@@ -39,7 +39,7 @@
 # https://access.redhat.com/solutions/4233311
 - name: '[POSTINSTALL][INFRA-NODES] Set the default node selector to application - can be overridden with ns annotations'
   k8s:
-    kubeconfig: "{{ user_path }}/auth/kubeconfig"
+    kubeconfig: "{{ kubeconfig }}"
     api_version: config.openshift.io/v1
     merge_type: merge
     kind: Scheduler

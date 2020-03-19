@@ -47,8 +47,8 @@
 #      when:
 #        - infra_node == True
 
-#    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL] Configure the Post Install for Monitoring'
-#      include_role:
-#        name: "ocp4-post-monitoring"
-#      when:
-#        - monitoring == True
+    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL] Configure the Post Install for Monitoring'
+      include_role:
+        name: "ocp4-post-monitoring"
+      when:
+        - monitoring == True

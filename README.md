@@ -61,6 +61,12 @@ Execute and wait a little bit:
 
 In this way, podman will be used for build and run the centos8 container that will be used for the installation and configuration of the Openshift4 cluster.
 
+* For debug the cluster when is creating with openshift-installer use:
+
+```
+podman exec ocp4-auto-install bash -c 'tail -f .ocp4-rcarrata/.openshift_install.log'
+```
+
 ## Custom Deployment
 
 The container for the installation could be used for Post Install or Day2Operations without deploy the whole cluster

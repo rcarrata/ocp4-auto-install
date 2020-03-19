@@ -23,7 +23,7 @@
     definition:
       metadata:
         labels:
-          node-role.kubernetes.io/application: ""
+          node-role.kubernetes.io/apps: ""
   loop: "{{ nodedata.resources }}"
   loop_control:
     loop_var: node
@@ -53,7 +53,7 @@
           spec:
             metadata:
               labels:
-                node-role.kubernetes.io/application: ""
+                node-role.kubernetes.io/apps: ""
   loop: "{{ machinesets.resources }}"
   loop_control:
     loop_var: machineset

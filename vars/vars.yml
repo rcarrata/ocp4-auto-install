@@ -1,5 +1,4 @@
 ---
-
 ## Cluster Vars
 ocp4_version: '4.3.5'
 cloud_provider: 'ec2'
@@ -34,6 +33,7 @@ worker_nodes: True
 infra_nodes: True
 disk_size: 1024
 instance_type: r5.xlarge
+name_identifier: "{{ name_label.0 }}"
 
 # Logging
 logging: False

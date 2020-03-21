@@ -1,6 +1,11 @@
 ---
-- name: Setup CRD
+
+- name: '[POSTINSTALL][LOGGING] Wait for operator'
+  pause:
+    seconds: 10
+
+- name: '[POSTINSTALL][LOGGING] Setup Custom Resource Definition'
   k8s:
     kubeconfig: "{{ kubeconfig }}"
     state: present
-    definition: "{{ lookup('template', 'clo-crd.yaml') }}"
+    definition: "{{ lookup('template', 'logging-crd.yaml') }}"

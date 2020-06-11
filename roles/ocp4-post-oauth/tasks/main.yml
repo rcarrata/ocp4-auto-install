@@ -23,8 +23,8 @@
 
 - block:
     - import_tasks: remove-kubeadmin.yml
-  when: ocp4_remove_kubeadmin == True
+  when: ocp4_remove_kubeadmin | bool
 
 - block:
     - import_tasks: remove-self-provisioner.yml
-  when: removeselfprovisioner == True
+  when: removeselfprovisioning | bool

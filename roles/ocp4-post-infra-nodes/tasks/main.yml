@@ -1,49 +1,7 @@
 ---
 
-- name: '[POSTINSTALL][INFRA-NODES] Grab some global cluster trivia for git to use'
-  k8s_facts:
-    kubeconfig: "{{ kubeconfig }}"
-    api_version: config.openshift.io/v1
-    kind: Infrastructure
-    name: cluster
-  register: infradata
+- import_tasks: infra-nodes.yml
 
-- name: '[POSTINSTALL][INFRA-NODES] Deploy Infra Nodes MachineSet'
-  vars:
-    instance_type: "{{ infra_instance_type }}"
-    disk_size: "{{ infra_disk_size }}"
-    node_labels:
-    - "{{ infra_label }}"
-    zone_suffixes:
-      - a
-      - b
-      - c
-    name_identifier: "{{ infra_label }}"
-  include_role:
-    name: ocp4-post-machinesets
-
-#- name: '[POSTINSTALL][INFRA-NODES] Deploy Infra EFK Nodes MachineSet'
-#  vars:
-#    instance_type: r5.xlarge
-#    node_labels:
-#    - infra
-#    - infra-efk
-#    zone_suffixes:
-#      - a
-#      - b
-#      - c
-#    name_identifier: infra-efk
-#  include_role:
-#    name: machineset
-
-
-
-
-
-
-
-
-
-
-
+- import_tasks: elk-nodes.yml
+  when: elk_nodes | bool
 

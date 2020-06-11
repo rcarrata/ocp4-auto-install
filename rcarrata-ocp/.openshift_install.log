@@ -1,3 +1,0 @@
-time="2020-06-11T18:01:26+02:00" level=debug msg="OpenShift Installer 4.4.5"
-time="2020-06-11T18:01:26+02:00" level=debug msg="Built from commit 15eac3785998a5bc250c9f72101a4a9cb767e494"
-time="2020-06-11T18:01:26+02:00" level=fatal msg="loading kubeconfig: stat rcarrata-ocp/auth/kubeconfig: no such file or directory"

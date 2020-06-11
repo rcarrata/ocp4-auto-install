@@ -1,0 +1,10 @@
+## Global Vars
+
+# User Path - ~/ocp4-auto-install/.myfancycluster
+user_path: "{{ playbook_dir }}/.{{ cluster_name }}"
+kubeconfig: "{{ user_path }}/auth/kubeconfig"
+
+## To be changed
+container_dir: "/root"
+kube_label: "node-role.kubernetes.io"
+

@@ -1,50 +1,57 @@
 ---
-# var_client_filename
-- name: '[OCP4-AUTO-INSTALL][PREREQS] Download the required tooling'
-  get_url:
-    url: "{{ aws_installer }}"
-    dest: "{{ container_dir }}/awscli-exe-linux-x86_64.zip"
 
-- name: '[OCP4-AUTO-INSTALL][PREREQS] Create a user-writable directory for tools'
-  file:
-    name: "{{ container_dir }}/tools"
-    state: directory
+- import_tasks: download.yml
+  when: aws-download == True
 
-- name: '[OCP4-AUTO-INSTALL][PREREQS] Unarchive the aws tools'
-  unarchive:
-    src: "{{ container_dir }}/awscli-exe-linux-x86_64.zip"
-    dest: "{{ container_dir }}/tools"
+- import_tasks: install.yml
 
-- name: '[OCP4-AUTO-INSTALL][PREREQS] Set in the environment where aws lives'
-  lineinfile:
-    path: ~/.bash_profile
-    line: "{{ line }}"
-  loop:
-    - 'export PATH=$PATH:{{ container_dir }}/tools/aws/dist/'
-    - 'export AWS_SECRET_ACCESS_KEY="{{ aws_secret_access_key }}"'
-    - 'export AWS_ACCESS_KEY_ID="{{ aws_access_key_id }}"'
-  loop_control:
-    loop_var: line
 
-# TODO: review if is needed
-- name: '[OCP4-AUTO-INSTALL][PREREQS] Create a directory for the installation'
-  file:
-    name: "{{ user_path }}"
-    state: directory
 
-- name: '[OCP4-AUTO-INSTALL][PREREQS] Create a user-writable directory for tools'
-  file:
-    name: "{{ item }}/.aws"
-    state: directory
-  loop:
-    - "{{ container_dir }}"
-    - "{{ user_path }}"
 
-# Deploy AWS Creds inside of the container and in the playbook dir
-- name: '[OCP4-AUTO-INSTALL][PREREQS] Deploy default aws credentials for this bastion'
-  template:
-    src: templates/credentials.j2
-    dest: "{{ item }}/.aws/credentials"
-  loop:
-    - "{{ container_dir }}"
-    - "{{ user_path }}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

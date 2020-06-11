@@ -1,27 +1,6 @@
 ---
 # vars file for ocp4tools
-var_installer_baseurl: 'https://mirror.openshift.com/pub/openshift-v4/clients/ocp/{{ ocp4_version }}'
-var_installer_program: 'openshift-install-linux-{{ ocp4_version }}.tar.gz'
-var_installer_clienttools: 'openshift-client-linux-{{ ocp4_version }}.tar.gz'
 
-files_to_encrypt:
-    - "{{ user_path }}/.openshift_install_state.json"
-    - "{{ user_path }}/terraform.tfvars.json"
-    - "{{ user_path }}/terraform.aws.auto.tfvars.json"
-    - "{{ user_path }}/auth/kubeconfig"
-    - "{{ user_path }}/auth/kubeadmin-password"
-    - "{{ user_path }}/tls/journal-gatewayd.key"
-    - "{{ user_path }}/tls/journal-gatewayd.crt"
-    - "{{ user_path }}/metadata.json"
-    - "{{ user_path }}/terraform.tfstate"
-files_to_archive:
-    - "{{ user_path }}/.openshift_install_state.json"
-    - "{{ user_path }}/.openshift_install.log"
-    - "{{ user_path }}/terraform.tfvars.json"
-    - "{{ user_path }}/terraform.aws.auto.tfvars.json"
-    - "{{ user_path }}/auth/kubeconfig"
-    - "{{ user_path }}/auth/kubeadmin-password"
-    - "{{ user_path }}/tls/journal-gatewayd.key"
-    - "{{ user_path }}/tls/journal-gatewayd.crt"
-    - "{{ user_path }}/metadata.json"
-    - "{{ user_path }}/terraform.tfstate"
+
+
+

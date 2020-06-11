@@ -1,0 +1,23 @@
+---
+
+- name: '[POSTINSTALL][INFRA-NODES] Grab some global cluster trivia for git to use'
+  k8s_facts:
+    kubeconfig: "{{ kubeconfig }}"
+    api_version: config.openshift.io/v1
+    kind: Infrastructure
+    name: cluster
+  register: infradata
+
+- name: '[POSTINSTALL][INFRA-NODES] Deploy Infra EFK Nodes MachineSet'
+  vars:
+    instance_type: r5.xlarge
+    node_labels:
+    - infra
+    - infra-efk
+    zone_suffixes:
+      - a
+      - b
+      - c
+    name_identifier: infra-efk
+  include_role:
+    name: machineset

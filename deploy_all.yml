@@ -25,13 +25,13 @@
       include_role:
         name: "ocp4-post-worker-nodes"
       when:
-        - worker_nodes == True
+        - worker_nodes | bool
 
     - name: '[OCP4-AUTO-INSTALL][POST-INSTALL][INFRA-NODES] Deploy and configure Infra Nodes'
       include_role:
         name: "ocp4-post-infra-nodes"
       when:
-        - infra_nodes == True
+        - infra_nodes | bool
 
     - name: '[OCP4-AUTO-INSTALL][POST-INSTALL][OAUTH] Configure OAuth'
       include_role:
@@ -50,10 +50,10 @@
       include_role:
         name: "ocp4-post-monitoring"
       when:
-        - monitoring == True
+        - monitoring | bool
 
     - name: '[OCP4-AUTO-INSTALL][POST-INSTALL] Install and configure Service Mesh'
       include_role:
         name: "ocp4-post-service-mesh"
       when:
-        - service_mesh == True
+        - service_mesh | bool

@@ -5,3 +5,4 @@
 - import_tasks: elk-nodes.yml
   when: elk_nodes | bool
 
+- import_tasks: router.yml

@@ -1,0 +1,17 @@
+---
+
+- name: Move ingress controller to new nodes
+  k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    merge_type: merge
+    name: default
+    namespace: openshift-ingress-operator
+    kind: ingresscontroller
+    api_version: operator.openshift.io/v1
+    definition:
+      spec:
+        nodePlacement:
+          nodeSelector:
+            matchLabels:
+              node-role.kubernetes.io/infra: ""

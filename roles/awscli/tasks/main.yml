@@ -1,5 +1,4 @@
 ---
 
 - import_tasks: download.yml
-
 - import_tasks: install.yml

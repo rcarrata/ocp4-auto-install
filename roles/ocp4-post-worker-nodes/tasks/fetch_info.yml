@@ -1,6 +1,6 @@
 ---
 
-- name: '[OCP4_AUTO_INSTALL][OCP4-POSTINSTALL][WORKER-NODES] Interrogate cluster'
+- name: '[POSTINSTALL][WORKER-NODES] Interrogate cluster'
   k8s_info:
     kubeconfig: "{{ kubeconfig }}"
     api_version: config.openshift.io/v1
@@ -8,7 +8,7 @@
     name: cluster
   register: infradata
 
-- name: '[OCP4_AUTO_INSTALL][OCP4-POSTINSTALL][WORKER-NODES] Capture nodes'
+- name: '[POSTINSTALL][WORKER-NODES] Capture nodes'
   k8s_facts:
     kubeconfig: "{{ kubeconfig }}"
     kind: Node

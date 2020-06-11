@@ -1,11 +1,11 @@
 ---
 
-- name: '[OCP4-AUTO-INSTALL][PREREQS] Create a user-writable directory for tools'
+- name: '[PREREQS][AWSCLI] Create a user-writable directory for tools'
   file:
     name: "~/.aws"
     state: directory
 
-- name: '[OCP4-AUTO-INSTALL][PREREQS] Define aws credentials for the installation'
+- name: '[PREREQS][AWSCLI] Define aws credentials for the installation'
   template:
     src: templates/credentials.j2
     dest: "~/.aws/credentials"

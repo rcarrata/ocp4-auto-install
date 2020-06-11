@@ -1,7 +1,7 @@
 ---
 
 # https://access.redhat.com/solutions/4287111
-- name: '[OCP4_AUTO_INSTALL][OCP4-POSTINSTALL][WORKER-NODES] Apply the application label to the worker nodes'
+- name: '[POSTINSTALL][WORKER-NODES] Apply the application label to the worker nodes'
   k8s:
     kubeconfig: "{{ kubeconfig }}"
     api_version: v1
@@ -18,7 +18,7 @@
     - node.metadata.labels['node-role.kubernetes.io/worker'] is defined
     - node.metadata.labels['node-role.kubernetes.io/infra'] is not defined
 
-- name: '[OCP4_AUTO_INSTALL][OCP4-POSTINSTALL][WORKER-NODES] Grab the machinesets'
+- name: '[POSTINSTALL][WORKER-NODES] Grab the machinesets'
   k8s_facts:
     kubeconfig: "{{ kubeconfig }}"
     api_version: machine.openshift.io/v1beta1
@@ -26,7 +26,7 @@
     namespace: openshift-machine-api
   register: machinesets
 
-- name: '[OCP4_AUTO_INSTALL][OCP4-POSTINSTALL][WORKER-NODES] Apply the same label to the default worker machineset stanza'
+- name: '[POSTINSTALL][WORKER-NODES] Apply the same label to the default worker machineset stanza'
   k8s:
     kubeconfig: "{{ kubeconfig }}"
     api_version: machine.openshift.io/v1beta1

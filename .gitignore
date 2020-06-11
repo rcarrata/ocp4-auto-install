@@ -4,3 +4,4 @@ vault/vault.yml
 .cluster-e805*
 roles/ocp4-post-infra-nodes/99-old/
 vars/vars.yml
+vars/aws-creds.yml

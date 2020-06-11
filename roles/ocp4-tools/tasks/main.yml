@@ -30,6 +30,6 @@
     line: "{{ linetoadd }}"
   loop:
     - "export KUBECONFIG={{ user_path }}/auth/kubeconfig"
-    - export PATH=$PATH:{{ container_dir }}/tools/
+    - "export PATH=$PATH:{{ container_dir }}/tools/"
   loop_control:
     loop_var: linetoadd

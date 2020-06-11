@@ -11,7 +11,7 @@
         name: "{{ item }}"
       loop:
         - awscli
-        - ocp4tools
+        - ocp4-tools
       when:
         - only_post_install != True
         - ocptools == True

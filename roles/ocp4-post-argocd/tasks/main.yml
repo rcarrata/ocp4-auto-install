@@ -1,2 +1,50 @@
 ---
-# tasks file for ocp4-post-argocd
+# tasks file for ocp_argocd
+- name: Ensure namespace exists
+  k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    api_version: v1
+    kind: Namespace
+    name: argocd
+
+- name: Ensure directory exists
+  file:
+    path: argocd
+    state: directory
+
+- name: download argocd install.yaml
+  get_url:
+    url: https://raw.githubusercontent.com/argoproj/argo-cd/{{argocd_version}}/manifests/install.yaml
+    dest: argocd/
+  register: argocd_download
+
+- name: dowload argocd client
+  get_url:
+    url: https://github.com/argoproj/argo-cd/releases/download/{{argocd_version}}/argocd-linux-amd64
+    dest: argocd
+  register: argocd_client
+
+- name: Create Objects
+  k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    namespace: argocd
+    src: "{{argocd_download.dest}}"
+
+- name: Create route for Argocd Server
+  k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Route
+      metadata:
+        name: argocd-server
+        namespace: argocd
+      spec:
+        to:
+          kind: Service
+          name: argocd-server
+        tls:
+          termination: passthrough

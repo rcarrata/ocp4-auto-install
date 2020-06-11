@@ -40,10 +40,11 @@
     - "{{ container_dir }}"
     - "{{ user_path }}"
 
+# Deploy AWS Creds inside of the container and in the playbook dir
 - name: '[OCP4-AUTO-INSTALL][PREREQS] Deploy default aws credentials for this bastion'
   template:
     src: templates/credentials.j2
     dest: "{{ item }}/.aws/credentials"
   loop:
-    - "{{ container_dir }}" 
+    - "{{ container_dir }}"
     - "{{ user_path }}"

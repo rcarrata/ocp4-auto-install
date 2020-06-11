@@ -32,3 +32,6 @@ logging: False
 
 # Monitoring
 monitoring: False
+
+# ArgoCD
+argocd_version: v1.5.7

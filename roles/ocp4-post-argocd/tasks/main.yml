@@ -1,6 +1,6 @@
 ---
 # tasks file for ocp_argocd
-- name: Ensure namespace exists
+- name: '[POSTINSTALL][ARGOCD] Ensure namespace exists'
   k8s:
     kubeconfig: "{{ kubeconfig }}"
     state: present
@@ -8,31 +8,32 @@
     kind: Namespace
     name: argocd
 
-- name: Ensure directory exists
+- name: '[POSTINSTALL][ARGOCD] Ensure directory exists'
   file:
-    path: argocd
+    path: "{{ user_path }}/argocd"
     state: directory
 
-- name: download argocd install.yaml
+- name: '[POSTINSTALL][ARGOCD] Download argocd install.yaml'
   get_url:
     url: https://raw.githubusercontent.com/argoproj/argo-cd/{{argocd_version}}/manifests/install.yaml
-    dest: argocd/
+    dest: "{{ user_path}}/argocd/"
   register: argocd_download
 
-- name: dowload argocd client
+- name: '[POSTINSTALL][ARGOCD] Download argocd client'
   get_url:
     url: https://github.com/argoproj/argo-cd/releases/download/{{argocd_version}}/argocd-linux-amd64
-    dest: argocd
+    dest: "{{ user_path}}/argocd/"
   register: argocd_client
+  when: argoclient | bool
 
-- name: Create Objects
+- name: '[POSTINSTALL][ARGOCD] Create Objects'
   k8s:
     kubeconfig: "{{ kubeconfig }}"
     state: present
     namespace: argocd
-    src: "{{argocd_download.dest}}"
+    src: "{{ argocd_download.dest }}"
 
-- name: Create route for Argocd Server
+- name: '[POSTINSTALL][ARGOCD] Create route for Argocd Server'
   k8s:
     kubeconfig: "{{ kubeconfig }}"
     state: present

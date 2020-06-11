@@ -19,13 +19,12 @@
       when:
         - infra_nodes | bool
 
-    # Disabled temporally
-    #- name: '[OCP4-AUTO-INSTALL][POST-INSTALL][OAUTH] Configure OAuth'
-    #  include_role:
-    #    name: "ocp4-post-oauth"
-    #  when:
-    #    - oauth is defined
-    #    - oauth != False
+    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL][OAUTH] Configure OAuth'
+      include_role:
+        name: "ocp4-post-oauth"
+      when:
+        - oauth is defined
+        - oauth != False
 
     - name: '[OCP4-AUTO-INSTALL][POST-INSTALL][LOGGING] Install and configure Logging'
       include_role:
@@ -44,3 +43,10 @@
         name: "ocp4-post-service-mesh"
       when:
         - service_mesh | bool
+
+
+    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL] Install and configure Argocd'
+      include_role:
+        name: "ocp4-post-argocd"
+      when:
+        - argocd | bool

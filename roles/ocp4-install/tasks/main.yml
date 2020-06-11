@@ -1,48 +1,11 @@
 ---
 
-- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Create bin directory'
-  file:
-    path: "{{ user_path }}/.ssh"
-    state: directory
+- import_tasks: download.yml
 
-- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Generate SSH keys'
-  openssh_keypair:
-    type: ed25519
-    path: "{{ user_path }}/.ssh/id_rsa"
+- import_tasks: create_config.yaml
 
-- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Slurp public key'
-  slurp:
-    path: "{{ user_path }}/.ssh/id_rsa.pub"
-  register: idrsapub
+- import_tasks: install.yml
 
-- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Create cluster directory'
-  file:
-    path: "{{ user_path }}"
-    state: directory
-
-- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Generate config install-config.yaml'
-  template:
-    src: install-config.yaml.j2
-    dest: "{{ user_path }}/install-config.yaml"
-
-- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Make a copy of the cluster install config for backup purposes'
-  copy:
-    src: "{{ user_path }}/install-config.yaml"
-    dest: "{{ user_path }}/install-config.yaml.bck"
-
-- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Install in background tmux, run <<tmux a>> to monitor'
-  shell: "bash -c 'tmux new-session -d -s ocpcreate \"bash --init-file <({{ container_dir }}/tools/openshift-install create cluster --dir={{ user_path }} --log-level debug)\"'"
-
-- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Check pid of openshift-install'
-  pids:
-    name: openshift-install
-  register: installer_pids
-
-- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Wait for the main installer to finish - may take around 25 minutes'
-  wait_for:
-    path: "/proc/{{ installer_pid }}/status"
-    state: absent
-    timeout: 3600
-  loop: "{{ installer_pids.pids }}"
-  loop_control:
-    loop_var: installer_pid
+- import_tasks: uninstall.yaml
+  tags: uninstall
+  when: uninstall_ocp is defined and uninstall_ocp== "true"

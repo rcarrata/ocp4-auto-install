@@ -1,0 +1,22 @@
+---
+
+- name: '[OCP4-AUTO-INSTALL][COMMON] Create a directory for the installation'
+  file:
+    name: "{{ user_path }}"
+    state: directory
+
+- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Create bin directory'
+  file:
+    path: "{{ user_path }}/.ssh"
+    state: directory
+
+- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Generate SSH keys'
+  openssh_keypair:
+    type: ed25519
+    path: "{{ user_path }}/.ssh/id_rsa"
+
+- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Slurp public key'
+  slurp:
+    path: "{{ user_path }}/.ssh/id_rsa.pub"
+  register: idrsapub
+

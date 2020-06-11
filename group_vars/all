@@ -1,7 +1,14 @@
 
-# awscli global vars
-aws_installer: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
-
+# Openshift4 Tools
 var_installer_baseurl: 'https://mirror.openshift.com/pub/openshift-v4/clients/ocp/{{ ocp4_version }}'
 var_installer_program: 'openshift-install-linux-{{ ocp4_version }}.tar.gz'
 var_installer_clienttools: 'openshift-client-linux-{{ ocp4_version }}.tar.gz'
+
+# User Path -
+install_path: "/tmp"
+user_path: "{{ install_path }}/{{ cluster_name }}"
+kubeconfig: "{{ user_path }}/auth/kubeconfig"
+
+## To be changed
+kube_label: "node-role.kubernetes.io"
+

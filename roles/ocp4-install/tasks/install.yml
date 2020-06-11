@@ -1,0 +1,35 @@
+---
+
+- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Install in background tmux, run <<tmux a>> to monitor'
+  shell:
+    cmd: "nohup {{ user_path }}/openshift-install create cluster --dir {{ user_path }} </dev/null >/dev/null 2>&1 &"
+    creates: "{{ user_path }}/auth"
+
+- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Check pid of openshift-install'
+  pids:
+    name: openshift-install
+  register: installer_pids
+
+- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Wait for the main installer to finish - may take around 25 minutes'
+  wait_for:
+    path: "/proc/{{ installer_pid }}/status"
+    state: absent
+    timeout: 3600
+  loop: "{{ installer_pids.pids }}"
+  loop_control:
+    loop_var: installer_pid
+
+- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Wait for the Bootstrap'
+  shell:
+    cmd: ./openshift-install wait-for bootstrap-complete --dir {{cluster_name}}
+
+- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Wait for the cluster'
+  shell:
+    cmd: ./openshift-install wait-for install-complete --dir {{cluster_name}}
+
+- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Wait for the cluster'
+  fetch:
+    src: "{{ cluster_name }}/auth/kubeconfig"
+    dest: "{{ local_kubeconfig }}"
+    flat: true
+

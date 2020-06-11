@@ -10,8 +10,8 @@
       include_role:
         name: "{{ item }}"
       loop:
+        - common
         - awscli
-        - ocp4-tools
       when:
         - only_post_install != True
         - ocptools == True

@@ -2,8 +2,9 @@ apiVersion: operators.coreos.com/v1alpha1
 kind: Subscription
 metadata:
   name: elasticsearch-operator
+  namespace: istio-system
 spec:
-  channel: "4.2"
+  channel: "4.4"
   installPlanApproval: Automatic
   name: elasticsearch-operator
   source: redhat-operators

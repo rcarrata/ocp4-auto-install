@@ -2,10 +2,10 @@
 
 - import_tasks: download.yml
 
-- import_tasks: create_config.yaml
+- import_tasks: create_config.yml
 
 - import_tasks: install.yml
 
-- import_tasks: uninstall.yaml
-  tags: uninstall
-  when: uninstall_ocp is defined and uninstall_ocp== "true"
+#- import_tasks: uninstall.yaml
+#  when:
+#    - uninstall_ocp is defined

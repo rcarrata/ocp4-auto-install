@@ -12,24 +12,25 @@
 
 - name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Wait for the main installer to finish - may take around 25 minutes'
   wait_for:
-    path: "/proc/{{ installer_pid }}/status"
-    state: absent
+    path: "{{ user_path }}/auth/kubeconfig"
+    state: present
     timeout: 3600
-  loop: "{{ installer_pids.pids }}"
-  loop_control:
-    loop_var: installer_pid
+
+    #- name: Wait for initial setup
+    #  pause:
+    #    prompt: Waiting for the initial creation of cluser {{cluster_name}}
+    #    seconds: 60
 
 - name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Wait for the Bootstrap'
   shell:
-    cmd: ./openshift-install wait-for bootstrap-complete --dir {{cluster_name}}
+    cmd: "{{ user_path }}/openshift-install wait-for bootstrap-complete --dir {{ user_path }}"
 
 - name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Wait for the cluster'
   shell:
-    cmd: ./openshift-install wait-for install-complete --dir {{cluster_name}}
+    cmd: "{{ user_path }}/openshift-install wait-for install-complete --dir {{ user_path }}"
 
-- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] Wait for the cluster'
-  fetch:
-    src: "{{ cluster_name }}/auth/kubeconfig"
+- name: '[OCP4_AUTO_INSTALL][INSTALL_CONFIG] '
+  copy:
+    src: "{{ user_path }}/auth/kubeconfig"
     dest: "{{ local_kubeconfig }}"
-    flat: true
 

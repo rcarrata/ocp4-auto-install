@@ -9,6 +9,7 @@
     - "{{ var_installer_clienttools }}"
   loop_control:
     loop_var: pkg
+  register: ocp4_files
 
 - name: '[OCP4-AUTO-INSTALL][OCP4-INSTALL] Create a user-writable directory for tools'
   file:
@@ -24,12 +25,4 @@
     - "{{ var_installer_clienttools }}"
   loop_control:
     loop_var: pkg
-
-- name: '[OCP4-AUTO-INSTALL][OCP4-INSTALL] Create a user-writable directory for tools'
-  file:
-    name: "{{ user_path }}/{{ item }}"
-    state: absent
-  loop:
-    - "{{ var_installer_program }}"
-    - "{{ var_installer_clienttools }}"
-
+  when: ocp4_files.changed

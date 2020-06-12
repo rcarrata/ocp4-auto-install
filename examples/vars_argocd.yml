@@ -1,0 +1,4 @@
+# ArgoCD
+argocd: True
+argoclient: False
+argocd_version: v1.5.7

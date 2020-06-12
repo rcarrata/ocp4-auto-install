@@ -11,12 +11,14 @@
       include_role:
         name: "ocp4-post-worker-nodes"
       when:
+        - worker_nodes is defined
         - worker_nodes | bool
 
     - name: '[OCP4-AUTO-INSTALL][POST-INSTALL][INFRA-NODES] Deploy and configure Infra Nodes'
       include_role:
         name: "ocp4-post-infra-nodes"
       when:
+        - infra_nodes is defined
         - infra_nodes | bool
 
     - name: '[OCP4-AUTO-INSTALL][POST-INSTALL][OAUTH] Configure OAuth'
@@ -30,23 +32,26 @@
       include_role:
         name: "ocp4-post-logging"
       when:
+        - logging is defined
         - logging | bool
 
     - name: '[OCP4-AUTO-INSTALL][POST-INSTALL] Configure Monitoring'
       include_role:
         name: "ocp4-post-monitoring"
       when:
+        - monitoring is defined
         - monitoring | bool
 
     - name: '[OCP4-AUTO-INSTALL][POST-INSTALL] Install and configure Service Mesh'
       include_role:
         name: "ocp4-post-service-mesh"
       when:
+        - service_mesh is defined
         - service_mesh | bool
-
 
     - name: '[OCP4-AUTO-INSTALL][POST-INSTALL] Install and configure Argocd'
       include_role:
         name: "ocp4-post-argocd"
       when:
+        - argocd is defined
         - argocd | bool

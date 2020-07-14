@@ -1,7 +1,9 @@
 # User Path
 install_path: "/tmp"
 user_path: "{{ install_path }}/{{ cluster_name }}"
-kubeconfig: "{{ user_path }}/auth/kubeconfig"
+
+# Define this into the vars/vars.yml
+# kubeconfig: "{{ user_path }}/auth/kubeconfig"
 
 # MachineSets
 kube_label: "node-role.kubernetes.io"

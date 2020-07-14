@@ -1,0 +1,29 @@
+---
+# tasks file for ocp4-post-project-template-request
+
+- name: Setting up workload for user
+  debug:
+    msg: "Setting up workload for user ocp_username = {{ ocp_username }}"
+
+- name: Create and enable Project Request Template
+  k8s:
+    state: present
+    merge_type:
+    - strategic-merge
+    - merge
+    definition: "{{ lookup('template', item ) | from_yaml }}"
+  loop:
+  - ./templates/project_request_template.j2
+  - ./templates/project_request_config.j2
+
+- name: Add label to openshift-ingress project
+  when:
+  - _install_network_policies | bool
+  k8s:
+    state: present
+    merge_type:
+    - strategic-merge
+    - merge
+    definition: "{{ lookup('file', item ) | from_yaml }}"
+  loop:
+  - ./files/openshift-ingress-namespace.yaml

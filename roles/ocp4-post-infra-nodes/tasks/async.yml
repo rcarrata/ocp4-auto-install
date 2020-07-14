@@ -1,0 +1,17 @@
+---
+
+#- name: wait for the status of the servicemesh subscription to not be empty
+#  k8s_facts:
+#    api_version: operators.coreos.com/v1alpha1
+#    kind: Subscription
+#    name: service-mesh-operator
+#    namespace: service-mesh-operators
+#  register: operator_subscription_out
+#  until:
+#    - operator_subscription_out is defined
+#    - operator_subscription_out.resources is defined
+#    - operator_subscription_out.resources[0] is defined
+#    - operator_subscription_out.resources[0].status is defined
+#    - operator_subscription_out.resources[0].status.installplan is defined
+#  retries: 30
+#  delay: 20

@@ -1,4 +1,4 @@
-vault/vault.yml
+#vault/vault.yml
 .vault-password-file
 #vars/vars.yml
 vars/aws-creds.yml

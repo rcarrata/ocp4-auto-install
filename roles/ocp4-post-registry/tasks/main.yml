@@ -1,6 +1,6 @@
 ---
 # tasks file for ocp4-post-registry
-#
+
 - name: Move registry to infra nodes
   k8s:
     kubeconfig: "{{ kubeconfig }}"

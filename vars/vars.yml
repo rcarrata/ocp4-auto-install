@@ -47,6 +47,9 @@ prom_retention: 1w
 prometheus_gp2_storage: 40Gi
 alertmanager_gp2_storage: 40Gi
 
+# Registry
+registry: True
+
 # ServiceMesh
 service_mesh: False
 

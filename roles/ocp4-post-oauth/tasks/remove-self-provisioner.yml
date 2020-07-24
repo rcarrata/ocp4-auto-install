@@ -2,3 +2,8 @@
 
 # TODO: Convert this with the OC module
 #- oc adm policy remove-cluster-role-from-group self-provisioner system:authenticated:oauth || true
+#
+- name: '[POST-OAUTH][SELF PROVISIONER] Remove the self provisioner'
+  shell: "{{ user_path }}/oc adm policy remove-cluster-role-from-group self-provisioner system:authenticated:oauth || true"
+  environment:
+    KUBECONFIG: "{{ kubeconfig }}"

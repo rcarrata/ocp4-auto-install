@@ -1,0 +1,22 @@
+---
+
+- name: '[COMMON] Create a directory for the installation'
+  file:
+    name: "{{ user_path }}"
+    state: directory
+
+- name: '[INSTALL_CONFIG] Create bin directory'
+  file:
+    path: "{{ user_path }}/.ssh"
+    state: directory
+
+- name: '[INSTALL_CONFIG] Generate SSH keys'
+  openssh_keypair:
+    type: ed25519
+    path: "{{ user_path }}/.ssh/id_rsa"
+
+- name: '[INSTALL_CONFIG] Slurp public key'
+  slurp:
+    path: "{{ user_path }}/.ssh/id_rsa.pub"
+  register: idrsapub
+

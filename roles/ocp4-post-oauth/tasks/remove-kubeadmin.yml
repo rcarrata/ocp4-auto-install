@@ -1,8 +1,8 @@
 ---
 
-- name: '[OCP4-POST-OAUTH] Remove kubeadmin tasks '
+- name: '[POST-OAUTH] Remove kubeadmin tasks'
   block:
-    - name: '[OCP4-REMOVE-KUBEADMIN] Remove kubeadmin user secret'
+    - name: '[REMOVE-KUBEADMIN] Remove kubeadmin user secret'
       k8s:
         state: absent
         api_version: v1
@@ -10,28 +10,14 @@
         namespace: kube-system
         name: kubeadmin
 
-    - name: Remove kubeadmin files
-      file:
-        state: absent
-        path: "{{ user_path }}/auth/{{ item }}"
-      loop:
-        - kubeadmin-password
-        - kubeconfig
-
+    # TODO: should not lock down the own kubeconfig of the local system
+    #- name: Remove kubeadmin files
+    #  file:
+    #    state: absent
+    #    path: "{{ user_path }}/auth/{{ item }}"
+    #  loop:
+    #    - kubeadmin-password
+    #    - kubeconfig
   when:
-  - ocp4_idm_admin_user is defined
-  - ocp4_idm_install != "none"
-  - ocp4_idm_remove_kubeadmin | bool
-
-
-
-
-
-
-
-
-
-
-
-
-
+  - ocp4_htpasswd_admin_user is defined
+  - ocp4_remove_kubeadmin | bool

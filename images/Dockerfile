@@ -1,4 +1,10 @@
-FROM centos:8
-
-RUN dnf -y upgrade && dnf -y install git unzip jq wget python3 python3-pip gcc libffi-devel openssl-devel tmux unzip vim python3-devel httpd-tools
-RUN pip3 install ansible yq ansible-lint psutil kubernetes openshift htpasswd
+FROM fedora:32
+RUN dnf update -y \
+    && dnf install -y httpd-tools \
+    && dnf clean all \
+    && rm -rf /var/cache/yum \
+    && useradd ansible -m
+COPY ansible_sudoers.conf /etc/sudoers.d/ansible
+WORKDIR /home/ansible
+USER ansible
+CMD sleep 7200

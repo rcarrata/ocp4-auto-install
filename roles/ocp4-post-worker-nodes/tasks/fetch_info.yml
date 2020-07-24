@@ -1,0 +1,15 @@
+---
+
+- name: '[POSTINSTALL][WORKER-NODES] Interrogate cluster'
+  k8s_info:
+    kubeconfig: "{{ kubeconfig }}"
+    api_version: config.openshift.io/v1
+    kind: Infrastructure
+    name: cluster
+  register: infradata
+
+- name: '[POSTINSTALL][WORKER-NODES] Capture nodes'
+  k8s_facts:
+    kubeconfig: "{{ kubeconfig }}"
+    kind: Node
+  register: nodedata

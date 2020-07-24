@@ -1,0 +1,21 @@
+# OAuth
+oauth: htpasswd
+removekubeadmin: False
+removeselfprovisioning: False
+
+# Worker Nodes
+worker_nodes: True
+
+# Infra Nodes
+infra_nodes: True
+disk_size: 1024
+instance_type: r5.xlarge
+
+# Logging
+logging: False
+
+# Monitoring
+monitoring: False
+
+# ArgoCD
+argocd_version: v1.5.7

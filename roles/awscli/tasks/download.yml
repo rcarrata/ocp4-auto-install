@@ -1,16 +1,18 @@
 ---
 
-- name: '[OCP4-AUTO-INSTALL][PREREQS] Download the required tooling'
+- name: '[PREREQS][AWSCLI] Download the required tooling'
   get_url:
     url: "{{ aws_installer }}"
-    dest: "{{ container_dir }}/awscli-exe-linux-x86_64.zip"
+    dest: "{{ user_path }}/awscli-exe-linux-x86_64.zip"
+  register: awsclifile
 
-- name: '[OCP4-AUTO-INSTALL][PREREQS] Create a user-writable directory for tools'
+- name: '[PREREQS][AWSCLI] Create a user-writable directory for tools'
   file:
-    name: "{{ container_dir }}/tools"
+    name: "{{ user_path }}/tools"
     state: directory
 
-- name: '[OCP4-AUTO-INSTALL][PREREQS] Unarchive the aws tools'
+- name: '[PREREQS][AWSCLI] Unarchive the aws tools'
   unarchive:
-    src: "{{ container_dir }}/awscli-exe-linux-x86_64.zip"
-    dest: "{{ container_dir }}/tools"
+    src: "{{ user_path }}/awscli-exe-linux-x86_64.zip"
+    dest: "{{ user_path }}/tools"
+  when: awsclifile.changed

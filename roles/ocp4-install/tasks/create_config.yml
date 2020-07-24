@@ -1,0 +1,12 @@
+---
+
+- name: '[INSTALL_CONFIG] Generate config install-config.yaml'
+  template:
+    src: install-config.yaml.j2
+    dest: "{{ user_path }}/install-config.yaml"
+
+- name: '[INSTALL_CONFIG] Make a copy of the cluster install config for backup purposes'
+  copy:
+    src: "{{ user_path }}/install-config.yaml"
+    dest: "{{ user_path }}/install-config.yaml.bck"
+

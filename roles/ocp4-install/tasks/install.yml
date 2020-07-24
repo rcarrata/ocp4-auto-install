@@ -1,0 +1,36 @@
+---
+
+- name: '[INSTALL_CONFIG] Install in background tmux, run <<tmux a>> to monitor'
+  shell:
+    cmd: "nohup {{ user_path }}/openshift-install create cluster --dir {{ user_path }} </dev/null >/dev/null 2>&1 &"
+    creates: "{{ user_path }}/auth"
+
+- name: '[INSTALL_CONFIG] Check pid of openshift-install'
+  pids:
+    name: openshift-install
+  register: installer_pids
+
+- name: '[INSTALL_CONFIG] Wait for the main installer to finish - may take around 25 minutes'
+  wait_for:
+    path: "{{ user_path }}/auth/kubeconfig"
+    state: present
+    timeout: 3600
+
+    #- name: Wait for initial setup
+    #  pause:
+    #    prompt: Waiting for the initial creation of cluser {{cluster_name}}
+    #    seconds: 60
+
+- name: '[INSTALL_CONFIG] Wait for the Bootstrap'
+  shell:
+    cmd: "{{ user_path }}/openshift-install wait-for bootstrap-complete --dir {{ user_path }}"
+
+- name: '[INSTALL_CONFIG] Wait for the cluster'
+  shell:
+    cmd: "{{ user_path }}/openshift-install wait-for install-complete --dir {{ user_path }}"
+
+- name: '[INSTALL_CONFIG] Copy the Kubeconfig to the know location'
+  copy:
+    src: "{{ user_path }}/auth/kubeconfig"
+    dest: "{{ local_kubeconfig }}"
+

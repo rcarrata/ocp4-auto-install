@@ -1,0 +1,58 @@
+---
+
+# https://access.redhat.com/solutions/4287111
+- name: '[POSTINSTALL][WORKER-NODES] Apply the application label to the worker nodes'
+  k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    api_version: v1
+    kind: Node
+    name: "{{ node.metadata.name }}"
+    definition:
+      metadata:
+        labels:
+          'node-role.kubernetes.io/apps': ""
+  loop: "{{ nodedata.resources }}"
+  loop_control:
+    loop_var: node
+  when:
+    - node.metadata.labels['node-role.kubernetes.io/worker'] is defined
+    - node.metadata.labels['node-role.kubernetes.io/infra'] is not defined
+
+- name: '[POSTINSTALL][WORKER-NODES] Grab the machinesets'
+  k8s_facts:
+    kubeconfig: "{{ kubeconfig }}"
+    api_version: machine.openshift.io/v1beta1
+    kind: MachineSet
+    namespace: openshift-machine-api
+  register: machinesets
+
+- name: '[POSTINSTALL][WORKER-NODES] Apply the same label to the default worker machineset stanza'
+  k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    api_version: machine.openshift.io/v1beta1
+    kind: MachineSet
+    name: "{{ machineset.metadata.name }}"
+    namespace: openshift-machine-api
+    definition:
+      spec:
+        template:
+          spec:
+            metadata:
+              labels:
+                'node-role.kubernetes.io/apps': ""
+  loop: "{{ machinesets.resources }}"
+  loop_control:
+    loop_var: machineset
+  when: machineset.metadata.name is search ("worker")
+
+# https://access.redhat.com/solutions/4233311
+- name: '[POSTINSTALL][WORKER-NODES] Set the default node selector to application - can be overridden with ns annotations'
+  k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    api_version: config.openshift.io/v1
+    merge_type: merge
+    kind: Scheduler
+    name: cluster
+    definition:
+      spec:
+        defaultNodeSelector: 'node-role.kubernetes.io/apps='

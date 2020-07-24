@@ -1,0 +1,14 @@
+---
+- name: '[OCP4-AUTO-INSTALL] Configure an Openshift4 cluster'
+  hosts: localhost
+  connection: local
+  vars_files:
+    - vars/vars.yml
+    - vault/vault.yml
+  tasks:
+    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL][LOGGING] Install and configure Logging'
+      include_role:
+        name: "ocp4-post-logging"
+      when:
+        - logging is defined
+        - logging | bool

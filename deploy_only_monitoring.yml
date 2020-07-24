@@ -1,0 +1,14 @@
+---
+- name: '[OCP4-AUTO-INSTALL] Configure an Openshift4 cluster'
+  hosts: localhost
+  connection: local
+  vars_files:
+    - vars/vars.yml
+    - vault/vault.yml
+  tasks:
+    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL] Configure Monitoring'
+      include_role:
+        name: "ocp4-post-monitoring"
+      when:
+        - monitoring is defined
+        - monitoring | bool

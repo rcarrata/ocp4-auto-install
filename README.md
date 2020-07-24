@@ -8,16 +8,16 @@ Openshift installer is used along with Ansible for creation and customization of
 The main features are:
 
 * Easy deployment of OCP4 cluster IPI in AWS or Azure
-* No Bastion needed and no local software additional installation (installation and configuration within a container)
+* No Bastion needed and no local software additional installation (only Ansible is needed)
 * Configuration of the PostInstall and Day2Operations
-* Low Requirements for the deployment (only podman is needed)
+* Low Requirements for the deployment (only Ansible is needed)
 * Fully running in RHEL, Fedora and Centos
 * Modularized for working certain day2ops
 * Idempotent (I hope!) and repetible
 
 ## Requirements
 
-* Podman
+* Ansible
 * Some hope and time :)
 
 ## Create/Customize the Variables yaml
@@ -56,27 +56,37 @@ echo "yourpasswordfancy" >> .vault-password-file
 Execute and wait a little bit:
 
 ```
-./ocp4-auto-install.sh
-```
-
-In this way, podman will be used for build and run the centos8 container that will be used for the installation and configuration of the Openshift4 cluster.
-
-* For debug the cluster when is creating with openshift-installer use:
-
-```
-podman exec ocp4-auto-install bash -c 'tail -f .ocp4-rcarrata/.openshift_install.log'
+./auto_deploy.sh
 ```
 
 ## Custom Deployment
 
 The container for the installation could be used for Post Install or Day2Operations without deploy the whole cluster
 
+* For Deploy only day2ops:
+
+```
+ansible-playbook -i ,localhost deploy_day2ops.yml --ask-vault-pass
+```
+
+* For install only and no day2ops:
+
+```
+ansible-playbook -i ,localhost deploy_only.yml --ask-vault-pass
+```
+
+* For install only an specific day2ops:
+
+```
+ansible-playbook -i ,localhost deploy_only_<MY_DAY2OPS>.yml
+```
+
 ## Customizations
 
 #### Openshift Cluster Variables
 
 ```
-ocp4_version: '4.3.3'
+ocp4_version: '4.4.3'
 cloud_provider: 'ec2' or 'azure'
 cluster_name: 'myfancycluster'
 ocp4_base_domain: 'yourbasedomain'
@@ -92,7 +102,7 @@ worker_instance_count: 3
 * Deploy only the post-install without deploy the cluster
 
 ```
-only_post_install: False
+only_post_install: True
 ```
 
 * Configure the OAuth between htpasswd, ldap, Google OAuth and Azure(wip):
@@ -109,14 +119,14 @@ Google OAuth: google
 LDAP/IDM: ldap
 Htpasswd: htpasswd
 
-* Deploy worker nodes (WIP)
+* Deploy worker nodes
 
 ```
 # Worker Nodes
 worker_nodes: True
 ```
 
-* Deploy infra nodes (WIP)
+* Deploy infra nodes
 
 ```
 # Infra Nodes
@@ -132,14 +142,14 @@ instance_type: r5.xlarge
 ocs: True
 ```
 
-* Deploy Logging EFK (WIP)
+* Deploy Logging EFK
 
 ```
 # Logging
 logging: True
 ```
 
-* Deploy Monitoring (WIP)
+* Deploy Monitoring
 
 ```
 # Monitoring
@@ -148,8 +158,7 @@ monitoring: True
 
 ## TODO:
 
-* Run Container in no root mode
-* Build and Push to Quay the image
+* Add Github actions
 * Add more day2ops
 * Customize the SSH-Key to add
 * Add latest version to the installation

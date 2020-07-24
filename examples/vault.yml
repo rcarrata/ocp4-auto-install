@@ -1,0 +1,5 @@
+aws_access_key_id:
+aws_secret_access_key:
+ocp4_pull_secret:
+ocp4_htpasswd_admin_password:
+ocp4_htpasswd_dev_password:

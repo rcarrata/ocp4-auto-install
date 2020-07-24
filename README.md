@@ -11,7 +11,7 @@ The main features are:
 * No Bastion needed and no local software additional installation (only Ansible is needed)
 * Configuration of the PostInstall and Day2Operations
 * Low Requirements for the deployment (only Ansible is needed)
-* Fully running in RHEL, Fedora and Centos
+* Ansible Tower friendly!
 * Modularized for working certain day2ops
 * Idempotent (I hope!) and repetible
 
@@ -82,6 +82,15 @@ ansible-playbook -i ,localhost deploy_only_<MY_DAY2OPS>.yml
 ```
 
 ## Customizations
+
+#### Kubeconfig
+
+The installer will look at specific kubeconfig at {{ user_path }}/auth/kubeconfig but you can use
+your own kubeconfig in order to deploy this day2ops whenever its using it:
+
+```
+kubeconfig: ~/.kube/ocp4-opentlc
+```
 
 #### Openshift Cluster Variables
 
@@ -158,10 +167,12 @@ monitoring: True
 
 ## TODO:
 
+* Finish the Tower integrations and fully automations
+* Add molecule to testing this modules
 * Add Github actions
 * Add more day2ops
 * Customize the SSH-Key to add
 * Add latest version to the installation
-* Expand the logging/monitoring to other nodes dynamically
+* Add more documentation to each day2ops
 * Time Control between infra nodes and the migrate of logging, monitoring, registry
 * Move vault from the first creds and move it after

@@ -1,6 +1,7 @@
 ---
 # tasks file for ocp4-post-ocs
 
+# TODO: Add some tests!
 - name: "Create OperatorGroup"
   k8s:
     state: present

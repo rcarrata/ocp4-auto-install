@@ -1,2 +1,15 @@
 ---
 # tasks file for ocp4-post-registry
+#
+- name: Move registry to infra nodes
+  k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    merge_type: merge
+    name: cluster
+    kind: Config
+    api_version: imageregistry.operator.openshift.io/v1
+    definition:
+      spec:
+        nodeSelector:
+          node-role.kubernetes.io/infra: ""

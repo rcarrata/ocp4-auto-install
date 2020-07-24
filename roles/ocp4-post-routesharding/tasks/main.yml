@@ -1,2 +1,9 @@
 ---
 # tasks file for ocp4-post-routesharding
+#
+
+- import_tasks: router.yml
+  when: infra_nodes | bool
+
+- import_tasks: ingress.yml
+

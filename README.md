@@ -173,13 +173,13 @@ and Job Templates.
 An example of execution could be the following:
 
 * Workflow
-![Tower Workflow](/pics/tower1.png)
+![Tower Workflow](/pics/tower1.png | width=100)
 
 * Survey
-![Tower Survey](/pics/tower2.png)
+![Tower Survey](/pics/tower2.png | width=50)
 
 * Webhook Execution
-![Tower Webhook](/pics/tower3.png)
+![Tower Webhook](/pics/tower3.png | width=50)
 
 ## TODO:
 

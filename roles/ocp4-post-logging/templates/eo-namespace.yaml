@@ -1,9 +1,11 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: openshift-operators-redhat 
+  name: openshift-operators-redhat
+{%if clo_node_selector is defined %}
   annotations:
     openshift.io/node-selector: "{{ clo_node_selector }}"
+{% endif %}
   labels:
     openshift.io/cluster-logging: "true"
     openshift.io/cluster-monitoring: "true"

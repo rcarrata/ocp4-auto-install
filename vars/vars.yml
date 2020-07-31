@@ -39,7 +39,10 @@ ocp4_remove_kubeadmin: False
 removeselfprovisioning: True
 
 # Logging
-logging: False
+logging: True
+clo_node_selector: "node-role.kubernetes.io/infra="
+es_channel: 4.3 #Define the ES version of the operator
+clo_channel: 4.3 #Define the ClusterLogging version of the operator
 
 # Monitoring
 monitoring: False

@@ -1,10 +1,10 @@
 ---
 
-- name: '[POSTINSTALL][LOGGING] Wait for operator'
+- name: '[POSTINSTALL][LOGGING] Wait for operator to be ready'
   pause:
     seconds: 10
 
-- name: '[POSTINSTALL][LOGGING] Setup Custom Resource Definition'
+- name: '[POSTINSTALL][LOGGING] Setup Logging configuration'
   k8s:
     kubeconfig: "{{ kubeconfig }}"
     state: present

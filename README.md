@@ -176,10 +176,10 @@ An example of execution could be the following:
 ![Tower Workflow](/pics/tower1.png)
 
 * Survey
-<img src="/pics/tower2.png" width="350">
+<img width="350" src="/pics/tower2.png" >
 
 * Webhook Execution
-<img align="center" src="/pics/tower3.png"width="350" >
+<img align="center" width="350" src="/pics/tower3.png">
 
 ## TODO:
 

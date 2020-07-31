@@ -1,5 +1,5 @@
 ---
-## Cluster Vars
+#### Cluster Vars
 ocp4_version: '4.4.5'
 cloud_provider: 'ec2'
 cluster_name: 'rcarrata-ocp'
@@ -16,13 +16,13 @@ kubeconfig: '~/.kube/ocp4-opentlc'
 awscli-download: False
 
 #### Post Install Vars
-only_post_install: True
+only_post_install: False
 
 # Worker Nodes
-worker_nodes: True
+worker_nodes: False
 
 # Infra Nodes
-infra_nodes: True
+infra_nodes: False
 infra_disk_size: 1024
 infra_instance_type: r5.xlarge
 
@@ -48,12 +48,44 @@ prometheus_gp2_storage: 40Gi
 alertmanager_gp2_storage: 40Gi
 
 # Registry
-registry: True
+registry: False
+
+# ProjectRequestTemplate
+project_request_template: True
+project_request_message: "To provision namespace ask to Openshift 4 Administrators"
+install_limit_range: True
+install_network_policies: True
+install_resource_quota: True
+project_request_template_project_limits:
+  - type: Container
+    max:
+      cpu: 2
+      memory: 2Gi
+    default:
+      cpu: 500m
+      memory: 500Mi
+    defaultRequest:
+      cpu: 50m
+      memory: 256Mi
+  - type: Pod
+    max:
+      cpu: 2
+      memory: 4Gi
+
+project_request_template_resource_quota:
+  pods: 10
+  requests.cpu: 4000m
+  requests.memory: 8Gi
+  resourcequotas: 1
+  requests.storage: 50Gi
+  persistentvolumeclaims: 5
+
+### Extra DevOps Or RH Tools
+
+# ArgoCD
+argocd: False
+argoclient: False
+argocd_version: v1.6.0
 
 # ServiceMesh
 service_mesh: False
-
-# ArgoCD
-argocd: True
-argoclient: True
-argocd_version: v1.6.0

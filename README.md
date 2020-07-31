@@ -176,7 +176,7 @@ An example of execution could be the following:
 ![Tower Workflow](/pics/tower1.png){:height="50%" width="50%"}
 
 * Survey
-<img src="/pics/tower2.png" img align="right" width="250" height="250">
+<img src="/pics/tower2.png" align="center" width="450" height="450">
 
 * Webhook Execution
 ![Tower Webhook](/pics/tower3.png){:height="50%" width="50%"}

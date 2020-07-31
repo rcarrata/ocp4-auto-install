@@ -43,7 +43,7 @@
 
 - name: Subscribing ES on channel {{ es_channel }}
   shell:
-    cmd: KUBECONFIG={{ kubeconfig }} {{ oc_exec }} create -f /tmp/eo-sub.yaml
+    cmd: KUBECONFIG={{ kubeconfig }} oc create -f /tmp/eo-sub.yaml
 
 - name: Create RBAC
   k8s:

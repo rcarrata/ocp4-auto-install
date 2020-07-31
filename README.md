@@ -182,7 +182,7 @@ An example of execution could be the following:
 <img align="center" width="250" src="/pics/tower3.png">
 
 * Status in GH and Tower
-<img align="center" width="250" src="/pics/tower4.png">
+<img align="center" width="250" src="/pics/tower4.jpg">
 
 ## TODO:
 

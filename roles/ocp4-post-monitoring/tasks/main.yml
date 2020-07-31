@@ -1,6 +1,6 @@
 ---
 
-- name: '[POSTINSTALL][INFRA-NODES] Apply cluster-monitoring-config config map'
+- name: '[POSTINSTALL][MONITORING] Apply cluster-monitoring-config config map'
   k8s:
     kubeconfig: "{{ kubeconfig }}"
     state: present

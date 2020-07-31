@@ -1,0 +1,14 @@
+---
+- name: '[OCP4-AUTO-INSTALL] Configure an Openshift4 cluster'
+  hosts: localhost
+  connection: local
+  vars_files:
+    - vars/vars.yml
+    - vault/vault.yml
+  tasks:
+    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL][REGISTRY] Install and configure Registry'
+      include_role:
+        name: "ocp4-post-registry"
+      when:
+        - registry is defined
+        - registry | bool

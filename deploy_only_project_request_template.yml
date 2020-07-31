@@ -1,0 +1,14 @@
+---
+- name: '[OCP4-AUTO-INSTALL] Configure an Openshift4 cluster'
+  hosts: localhost
+  connection: local
+  vars_files:
+    - vars/vars.yml
+    - vault/vault.yml
+  tasks:
+    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL][PROJECT-REQUEST-TEMPLATE] Install and configure the project request template with quotas, limits and netpols'
+      include_role:
+        name: "ocp4-post-project-template-request"
+      when:
+        - project_request_template is defined
+        - project_request_template | bool

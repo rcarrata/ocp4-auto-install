@@ -1,0 +1,7 @@
+---
+# defaults file for ocp4-post-cluster-autoscale
+
+_autoscale_machineset_min_replicas: 1
+_autoscale_machineset_max_replicas: 4
+_autoscale_cluster_max_replicas: 12
+_autoscale_cluster_enable_scaledown: true

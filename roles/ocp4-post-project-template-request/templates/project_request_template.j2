@@ -4,16 +4,25 @@ metadata:
   name: project-request
   namespace: openshift-config
 objects:
-{% if _install_limit_range|bool %}
+{% if install_limit_range|bool %}
 - apiVersion: v1
   kind: LimitRange
   metadata:
-    name: ${PROJECT_NAME}-core-resource-limits
+    name: ${PROJECT_NAME}-limit-range
     namespace: ${PROJECT_NAME}
   spec:
-    limits: {{ ocp4_workload_project_request_template_project_limits | to_json }}
+    limits: {{ project_request_template_project_limits | to_json }}
 {% endif %}
-{% if _install_network_policies|bool %}
+{% if install_resource_quota|bool %}
+- apiVersion: v1
+  kind: ResourceQuota
+  metadata:
+    name: ${PROJECT_NAME}-resource-quota
+    namespace: ${PROJECT_NAME}
+  spec:
+    hard: {{ project_request_template_resource_quota | to_json }}
+{% endif %}
+{% if install_network_policies|bool %}
 - kind: NetworkPolicy
   apiVersion: networking.k8s.io/v1
   metadata:

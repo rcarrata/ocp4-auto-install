@@ -1,6 +1,5 @@
 ---
 
-# TODO: Test it!
 - name: Move routers to infra nodes
   k8s:
     kubeconfig: "{{ kubeconfig }}"

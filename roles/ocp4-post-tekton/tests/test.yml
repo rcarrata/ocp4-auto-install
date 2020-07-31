@@ -2,4 +2,4 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - ocp4-post-project-template-request
+    - ocp4-post-tekton

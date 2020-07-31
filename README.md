@@ -165,6 +165,22 @@ logging: True
 monitoring: True
 ```
 
+## Tower Integrations
+
+The installation and the day2ops are prepared to be integrated into Tower, and executed in workflows
+and Job Templates.
+
+An example of execution could be the following:
+
+* Workflow
+![Tower Workflow](/pics/tower1.png)
+
+* Survey
+![Tower Survey](/pics/tower2.png)
+
+* Webhook Execution
+![Tower Webhook](/pics/tower3.png)
+
 ## TODO:
 
 * Finish the Tower integrations and fully automations

@@ -19,7 +19,7 @@ spec:
       - effect: NoExecute
         key: infra
         value: reserved
-{% if _infra_node_elasticsearch_nodes | bool %}
+{% if elk_nodes | bool %}
       - effect: NoSchedule
         key: elasticsearch
         value: reserved

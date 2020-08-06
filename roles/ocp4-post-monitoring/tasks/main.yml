@@ -1,5 +1,6 @@
 ---
 
+# TODO: Review the tolerations for the infra / elk nodes
 - name: '[POSTINSTALL][MONITORING] Apply cluster-monitoring-config config map'
   k8s:
     kubeconfig: "{{ kubeconfig }}"

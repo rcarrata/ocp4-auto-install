@@ -22,6 +22,17 @@
   include_role:
     name: ocp4-post-machinesets
 
+    #- name: '[POSTINSTALL][INFRA-NODES] Wait for Infra Nodes to be available'
+    #  k8s_facts:
+    #    api_version: v1
+    #    kind: Node
+    #    label_selectors:
+    #    - node-role.kubernetes.io/infra =
+    #  register: r_infra_nodes
+    #
+    #- debug:
+    #    msg: "{{ r_infra_nodes.resources | length }}"
+
 - name: '[POSTINSTALL][INFRA-NODES] Wait for Infra Nodes to be available'
   k8s_facts:
     api_version: v1
@@ -30,7 +41,7 @@
     - node-role.kubernetes.io/infra =
   register: r_infra_nodes
   until:
-  - r_infra_nodes.resources | length | int == _infra_node_replicas | int
+  - r_infra_nodes.resources | length | int == infra_node_replicas | int
   delay: 30
   retries: 15
 

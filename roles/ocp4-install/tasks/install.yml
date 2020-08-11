@@ -34,3 +34,16 @@
     src: "{{ user_path }}/auth/kubeconfig"
     dest: "{{ local_kubeconfig }}"
 
+- name: '[INSTALL_CONFIG] Gzip Install files'
+  archive:
+    path: "{{ user_path }}/{{ item }}"
+    dest: "{{ user_path }}/{{ cluster_name }}_install.gz"
+    format: gz
+  loop:
+    - .openshift_install_state.json
+    - .openshift_install.log
+    - terraform.tfvars.json
+    - terraform.tfstate
+    - metadata.json
+    - terraform.aws.auto.tfvars.json
+

@@ -1,0 +1,24 @@
+---
+
+- name: '[PRINT-INFO] Get ClusterVersion'
+  k8s_info:
+    api_version: config.openshift.io/v1
+    kind: dns
+    name: cluster
+  register: r_cluster_version
+
+- name: '[PRINT-INFO] Extract the baseDomain'
+  set_fact:
+    ocp4_domain: "apps.{{ r_cluster_version.resources.0.spec.baseDomain }}"
+
+- name: '[PRINT-INFO] OCP4 Console & API'
+  set_fact:
+    ocp4_console: "https://console-openshift-console.{{ ocp4_domain }}"
+    ocp4_api: "https://api.{{ ocp4_domain }}"
+
+- name: '[PRINT-INFO] Print Connection Information'
+  debug:
+    msg: "{{ item }}"
+  with_items:
+    - "user.info: Openshift Master Console: {{ ocp4_console | trim }}"
+    - "user.info: Openshift API for command line 'oc' client: {{ ocp4_api | trim }}"

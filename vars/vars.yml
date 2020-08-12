@@ -11,6 +11,7 @@ worker_instance_type: m5.xlarge
 worker_instance_count: 3
 kubeconfig: '~/.kube/ocp4-opentlc2'
 machineCIDR: "10.0.0.0/16"
+local_kubeconfig: '~/.kube/{{ cluster_name }}'
 #kubeconfig: "{{ user_path }}/auth/kubeconfig"
 
 #### Install Vars

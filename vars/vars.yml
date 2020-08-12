@@ -17,6 +17,7 @@ local_kubeconfig: '~/.kube/{{ cluster_name }}'
 #### Install Vars
 awscli-download: False
 prereqs: False
+uninstall_ocp: False
 
 #### Post Install Vars
 only_post_install: False

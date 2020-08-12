@@ -47,4 +47,3 @@
     - metadata.json
     - terraform.aws.auto.tfvars.json
 
-    local_kubeconfig: '~/.kube/{{ cluster_name }}'

@@ -7,6 +7,7 @@
     name: cluster
   register: r_cluster_version
 
+
 - name: '[PRINT-INFO] Extract the baseDomain'
   set_fact:
     ocp4_domain: "apps.{{ r_cluster_version.resources.0.spec.baseDomain }}"

@@ -1,6 +1,10 @@
 ---
 
 - name: '[PRINT-INFO] Get ClusterVersion'
+  pause:
+    minutes: 5
+
+- name: '[PRINT-INFO] Get ClusterVersion'
   k8s_info:
     api_version: config.openshift.io/v1
     kind: dns

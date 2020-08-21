@@ -9,13 +9,17 @@
   unarchive:
     src: "{{ tower_path }}/{{ cluster_name }}-{{ ocp_cluster }}-install.gz"
     dest: "{{ user_path }}"
+    creates: uninstall
   when:
     - tower_used is defined
     - tower_used | bool
 
+- pause:
+    min: 10
+
 - name: '[UNINSTALL_CLUSTER] Unarchive tower installation files to uninstall after'
   shell:
-    cmd: "{{ user_path }}/openshift-install destroy cluster --dir {{ user_path }}"
+    cmd: "{{ user_path }}/openshift-install destroy cluster --dir {{ user_path }}/uninstall"
     removes: "{{ user_path }}/terraform.tfstate"
 
 - name: '[UNINSTALL_CLUSTER] Remove working directory'

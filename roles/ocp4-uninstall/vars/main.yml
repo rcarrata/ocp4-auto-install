@@ -1,2 +1,4 @@
 ---
-# vars file for ocp4-uninstall
+var_installer_baseurl: 'https://mirror.openshift.com/pub/openshift-v4/clients/ocp/{{ ocp4_version }}'
+var_installer_program: 'openshift-install-linux-{{ ocp4_version }}.tar.gz'
+var_installer_clienttools: 'openshift-client-linux-{{ ocp4_version }}.tar.gz'

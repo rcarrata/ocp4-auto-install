@@ -41,7 +41,7 @@
     - tower_used | bool
 
 - shell:
-    cmd: ls -lhrt
+    cmd: "ls -lhrt {{ user_path }}"
 
 #- pause:
 #    minutes: 10

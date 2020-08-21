@@ -43,8 +43,8 @@
 - shell:
     cmd: "ls -lhrt {{ user_path }}"
 
-- pause:
-    minutes: 10
+#- pause:
+#    minutes: 10
 
 - name: '[UNINSTALL_CLUSTER] Unarchive tower installation files to uninstall after'
   shell:

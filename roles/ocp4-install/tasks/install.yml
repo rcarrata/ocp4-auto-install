@@ -49,6 +49,7 @@
     - terraform.tfstate
     - metadata.json
     - terraform.aws.auto.tfvars.json
+    - openshift-install
   when:
     - tower_used is defined
     - tower_used | bool

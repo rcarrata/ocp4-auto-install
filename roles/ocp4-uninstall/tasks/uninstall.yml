@@ -15,7 +15,7 @@
     - tower_used | bool
 
 - pause:
-    min: 10
+    minutes: 10
 
 - name: '[UNINSTALL_CLUSTER] Unarchive tower installation files to uninstall after'
   shell:

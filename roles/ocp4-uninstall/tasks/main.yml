@@ -1,5 +1,5 @@
 ---
 
-- import_tasks: uninstall.yaml
+- import_tasks: uninstall.yml
   when:
     - uninstall_ocp is defined

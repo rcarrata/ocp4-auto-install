@@ -8,6 +8,6 @@
 
 - import_tasks: print_info.yml
 
-#- import_tasks: uninstall.yaml
-#  when:
-#    - uninstall_ocp is defined
+- import_tasks: uninstall.yaml
+  when:
+    - uninstall_ocp is defined

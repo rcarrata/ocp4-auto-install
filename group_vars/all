@@ -1,7 +1,7 @@
 # User Path
 install_path: "/tmp"
 user_path: "{{ install_path }}/{{ cluster_name }}"
-tower_path: "/var/lib/awx/.ocp4_installed"
+tower_path: "/var/lib/awx/.kube"
 
 # Define this into the vars/vars.yml
 # kubeconfig: "{{ user_path }}/auth/kubeconfig"

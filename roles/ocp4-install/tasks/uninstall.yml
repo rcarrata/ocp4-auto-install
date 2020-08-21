@@ -1,14 +1,32 @@
 ---
 
-- name: destroy cluster
+- name: '[UNINSTALL_CLUSTER] Create a user-writable directory for tools'
+  file:
+    name: "{{ user_path }}"
+    state: directory
+
+- name: '[INSTALL_CONFIG] Unarchive tower installation files to uninstall after'
+  unarchive:
+    src: "{{ tower_path }}/{{ cluster_name }}_{{ ocp_cluster }}_install.gz"
+    dest: "{{ user_path }}"
+  when:
+    - tower_used is defined
+    - tower_used | bool
+
+- name: '[UNINSTALL_CLUSTER] Unarchive tower installation files to uninstall after'
   shell:
-    cmd: ./openshift-install destroy cluster --dir {{cluster_name}}
-    removes: "{{cluster_name}}/terraform.tfstate"
+    cmd: "{{ user_path }}/openshift-install destroy cluster --dir {{ user_path }}"
+    removes: "{{ user_path }}/terraform.tfstate"
+
 - name: Remove working directory
   file:
-    path: "{{ cluster_name }}"
+    path: "{{ user_path }}"
     state: absent
+
 - name: Remove copied kubeconfig
   file:
     path: "{{ local_kubeconfig }}"
     state: absent
+  when:
+    - tower_used is defined
+    - tower_used | bool

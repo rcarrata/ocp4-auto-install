@@ -18,12 +18,12 @@
     cmd: "{{ user_path }}/openshift-install destroy cluster --dir {{ user_path }}"
     removes: "{{ user_path }}/terraform.tfstate"
 
-- name: Remove working directory
+- name: '[UNINSTALL_CLUSTER] Remove working directory'
   file:
     path: "{{ user_path }}"
     state: absent
 
-- name: Remove copied kubeconfig
+- name: '[UNINSTALL_CLUSTER] Remove copied kubeconfig'
   file:
     path: "{{ local_kubeconfig }}"
     state: absent

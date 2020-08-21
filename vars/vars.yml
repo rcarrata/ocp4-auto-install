@@ -16,6 +16,7 @@ machineCIDR: "10.0.0.0/16"
 #### Only in Tower-mode
 tower_used: True
 local_kubeconfig: '~/.kube/{{ cluster_name }}'
+ocp_cluster: ocpdr
 
 #### Install Vars
 awscli-download: False

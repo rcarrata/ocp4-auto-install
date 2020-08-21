@@ -7,7 +7,7 @@
 
 - name: '[INSTALL_CONFIG] Unarchive tower installation files to uninstall after'
   unarchive:
-    src: "{{ tower_path }}/{{ cluster_name }}_{{ ocp_cluster }}_install.gz"
+    src: "{{ tower_path }}/{{ cluster_name }}-{{ ocp_cluster }}-install.gz"
     dest: "{{ user_path }}"
   when:
     - tower_used is defined

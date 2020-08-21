@@ -40,8 +40,8 @@
     - tower_used is defined
     - tower_used | bool
 
-- shell:
-    cmd: ls -lhrt
+#- shell:
+#    cmd: ls -lhrt
 
 - pause:
     minutes: 10

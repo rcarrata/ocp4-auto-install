@@ -7,7 +7,7 @@ and perform the Post Install and Day2Operations 100% automatically
 
 Openshift installer is used along with Ansible for creation and customization of the Openshift Cluster.
 
-<img align="center" width="250" src="/pics/wf1.png">
+<img align="center" width="500" src="/pics/wf1.png">
 
 Each day2 operations in this repo can be executed isolated (e.g. only execute day2ops logging for
 configure logging stack)

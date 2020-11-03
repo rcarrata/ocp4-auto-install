@@ -3,4 +3,6 @@ kind: OperatorGroup
 metadata:
   name: argocd
   namespace: argocd
-spec: {}
+spec:
+  targetNamespaces:
+  - argocd

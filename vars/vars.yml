@@ -53,13 +53,13 @@ es_channel: 4.5 #Define the ES version of the operator
 clo_channel: 4.5 #Define the ClusterLogging version of the operator
 
 # Monitoring
-monitoring: False
+monitoring: True
 prom_retention: 1w
 prometheus_gp2_storage: 40Gi
 alertmanager_gp2_storage: 40Gi
 
 # Registry
-registry: False
+registry: True
 
 # ProjectRequestTemplate
 project_request_template: True

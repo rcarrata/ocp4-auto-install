@@ -55,7 +55,7 @@
 
 - name: '[POSTINSTALL][LOGGING] Subscribing ES on channel {{ es_channel }}'
   shell:
-    cmd: KUBECONFIG={{ kubeconfig }} oc create -f /tmp/eo-sub.yaml
+    cmd: KUBECONFIG={{ kubeconfig }} {{ user_path }}/oc create -f /tmp/eo-sub.yaml
 
 - name: '[POSTINSTALL][LOGGING] Create RBAC'
   k8s:

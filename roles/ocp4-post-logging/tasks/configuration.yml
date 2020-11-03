@@ -2,7 +2,7 @@
 
 - name: '[POSTINSTALL][LOGGING] Wait for operator to be ready'
   pause:
-    seconds: 10
+    seconds: 60
 
 - name: '[POSTINSTALL][LOGGING] Setup Logging configuration'
   k8s:

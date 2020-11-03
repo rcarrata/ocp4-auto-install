@@ -39,7 +39,7 @@ elk_nodes: False
 
 # OAuth
 #oauth: htpasswd
-oauth: False
+oauth: htpasswd
 ocp4_htpasswd_admin_user: admin
 ocp4_htpasswd_dev_user: developer
 
@@ -49,8 +49,8 @@ removeselfprovisioning: True
 # Logging
 logging: True
 clo_node_selector: "node-role.kubernetes.io/infra="
-es_channel: 4.3 #Define the ES version of the operator
-clo_channel: 4.3 #Define the ClusterLogging version of the operator
+es_channel: 4.5 #Define the ES version of the operator
+clo_channel: 4.5 #Define the ClusterLogging version of the operator
 
 # Monitoring
 monitoring: False

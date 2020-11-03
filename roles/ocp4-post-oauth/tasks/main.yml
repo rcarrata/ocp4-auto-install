@@ -20,7 +20,11 @@
 #- block:
 #    - import_tasks: oauth-azuread.yml
 #  when: oauth == "google"
-
+#
+#- block:
+#    - import_tasks: oauth-azuread.yml
+#  when: oauth == "github"
+#
 - block:
     - import_tasks: remove-kubeadmin.yml
   when: ocp4_remove_kubeadmin | bool

@@ -1,0 +1,20 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Issuer
+metadata:
+  name: letsencrypt-aws
+  namespace: openshift-ingress
+spec:
+  acme:
+    email: {{ cmanager_email_admin }}
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: issuer
+    solvers:
+      - dns01:
+          route53:
+            region: {{ cmanager_aws_region }}
+            accessKeyID: {{ aws_access_key_id }}
+            hostedZoneID: {{ host_zone_id }}
+            secretAccessKeySecretRef:
+              key: aws_secret_access_key
+              name: certmanager-aws-key

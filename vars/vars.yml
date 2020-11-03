@@ -91,6 +91,29 @@ project_request_template_resource_quota:
   requests.storage: 50Gi
   persistentvolumeclaims: 5
 
+### Cert Manager
+cmanager: true
+cmanager_namespace: cert-manager
+cmanager_aws_region: eu-west-1
+cmanager_email_admin: rcarrata@redhat.com
+cmanager_nodeselector: worker
+cmanager_aws_role_name: ocp_cert_manager
+cmanager_aws_user: ocp_cert_manager
+cmanager_default_certificate: default
+cmanager_cert_routes:
+#  - { route_name: 'internal',
+#        hostname: 'internal.{{ cluster_name }}.{{ ocp4_base_domain }}' }
+  - { route_name: 'default',
+        hostname: 'apps.{{ cluster_name }}.{{ ocp4_base_domain }}' }
+#  - { route_name: 'publicapps',
+#        hostname: 'publicapps.{{ cluster_name }}.{{ ocp4_subdomain }}.{{ ocp4_base_domain }}' }
+cmanager_label: [OCP_POST-CMANAGER]
+# to disable operator choose absent
+# disabling operator doesnt remove the certificates
+cmanager_state: present
+cmanager_chart_version: v0.13.1
+ocp4_dnszone: '{{ cluster_name }}.{{ ocp4_base_domain }}'
+
 ### Extra DevOps Or RH Tools
 
 # ArgoCD

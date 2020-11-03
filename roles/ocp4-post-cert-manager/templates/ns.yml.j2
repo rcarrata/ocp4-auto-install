@@ -1,0 +1,13 @@
+---
+- kind: Namespace
+  apiVersion: v1
+  metadata:
+    labels:
+      certmanager.k8s.io/disable-validation: 'true'
+      manager: cluster-policy-controller
+    annotations:
+      openshift.io/description: {{ cmanager_namespace }}
+      openshift.io/display-name: {{ cmanager_namespace }}
+      openshift.io/node-selector: node-role.kubernetes.io/{{ cmanager_nodeselector }}= 
+    name: {{ cmanager_namespace }}
+

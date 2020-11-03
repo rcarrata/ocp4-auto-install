@@ -1,0 +1,8 @@
+---
+# tasks file for ocp4-post-cert-manager
+
+- import_tasks: aws_credentials.yml
+- import_tasks: certmanager_operator.yml
+- import_tasks: certmanager_issuer.yml
+- import_tasks: certificates.yml
+- import_tasks: test.yml

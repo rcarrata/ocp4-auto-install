@@ -63,6 +63,12 @@ touch .vault-password-file
 echo "yourpasswordfancy" >> .vault-password-file
 ```
 
+* Opt: If you want to generate Let's Encrypt Certificates install the collection requirements
+
+```
+ansible-galaxy collection install -r collections/requirements.yml
+```
+
 ## Usage
 
 ### Automated deployment end2end of Openshift4 cluster (end2end)

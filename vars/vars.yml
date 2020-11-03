@@ -94,7 +94,7 @@ project_request_template_resource_quota:
 ### Extra DevOps Or RH Tools
 
 # ArgoCD
-argocd: False
+argocd: True
 argoclient: False
 argocd_version: v1.6.0
 

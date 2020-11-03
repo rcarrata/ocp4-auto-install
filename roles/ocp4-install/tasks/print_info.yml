@@ -6,6 +6,7 @@
 
 - name: '[PRINT-INFO] Get ClusterVersion'
   k8s_info:
+    kubeconfig: "{{ local_kubeconfig }}"
     api_version: config.openshift.io/v1
     kind: dns
     name: cluster

@@ -24,6 +24,7 @@
 
 - name: '[POSTINSTALL][INFRA-NODES] Wait for Infra Nodes to be available'
   k8s_facts:
+    kubeconfig: "{{ kubeconfig }}"
     api_version: v1
     kind: Node
     label_selectors:
@@ -36,6 +37,7 @@
 
 - name: '[POSTINSTALL][INFRA-NODES] Get ClusterVersion'
   k8s_info:
+    kubeconfig: "{{ kubeconfig }}"
     api_version: config.openshift.io/v1
     kind: ClusterVersion
     name: version
@@ -55,6 +57,7 @@
 - name: '[POSTINSTALL][INFRA-NODES] Fix Machine Config and Node CA Daemon Sets (add Tolerations for Infra and Elasticsearch nodes)'
   when: ocp4_workload_machinesets_cluster_version is version_compare('4.5', '<')
   k8s:
+    kubeconfig: "{{ kubeconfig }}"
     state: present
     merge_type:
     - merge
@@ -66,6 +69,7 @@
 - name: '[POSTINSTALL][INFRA-NODES] Configure Ingress Controllers and Image Registry'
   when: ocp4_workload_machinesets_cluster_version is version_compare('4.5', '<')
   k8s:
+    kubeconfig: "{{ kubeconfig }}"
     state: present
     merge_type:
     - merge

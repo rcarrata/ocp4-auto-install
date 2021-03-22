@@ -1,5 +1,10 @@
 ---
 
+- name: '[OCP4-INSTALL] Create a user-writable directory for tools'
+  file:
+    name: "{{ user_path }}"
+    state: directory
+
 - name: '[OCP4-INSTALL] Download the required ocp4 tooling'
   get_url:
     url: "{{ var_installer_baseurl }}/{{ pkg }}"
@@ -10,11 +15,6 @@
   loop_control:
     loop_var: pkg
   register: ocp4_files
-
-- name: '[OCP4-INSTALL] Create a user-writable directory for tools'
-  file:
-    name: "{{ user_path }}"
-    state: directory
 
 - name: '[OCP4-INSTALL] Ensure downloaded installers are unarchived'
   unarchive:

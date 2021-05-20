@@ -1,0 +1,3 @@
+
+- import_tasks: central.yml
+- import_tasks: sensor.yml

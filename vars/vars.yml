@@ -1,6 +1,6 @@
 ---
 #### Cluster Vars
-ocp4_version: '4.6.1'
+ocp4_version: '4.8.5'
 cloud_provider: 'ec2'
 cluster_name: 'rcarrata-ocp'
 ocp4_base_domain: 'b8a1.sandbox1648.opentlc.com'
@@ -18,13 +18,13 @@ local_kubeconfig: '~/.kube/{{ cluster_name }}'
 tower_used: False
 
 #### Install Vars
-awscli-download: False
-prereqs: False
+awscli-download: True
+prereqs: True
 uninstall_ocp: False # VERY CAREFUL WITH THIS VAR :)
 
 #### Post Install Vars
-only_post_install: True
-#only_post_install: False
+#only_post_install: True
+only_post_install: False
 
 # Worker Nodes
 worker_nodes: True
@@ -49,12 +49,12 @@ removeselfprovisioning: True
 # Logging
 logging: True
 clo_node_selector: "node-role.kubernetes.io/infra="
-es_channel: 4.5 #Define the ES version of the operator
-clo_channel: 4.5 #Define the ClusterLogging version of the operator
+es_channel: stable #Define the ES version of the operator
+clo_channel: stable #Define the ClusterLogging version of the operator
 
 # Monitoring
 monitoring: True
-prom_retention: 1w
+prom_retention: 4w
 prometheus_gp2_storage: 40Gi
 alertmanager_gp2_storage: 40Gi
 
@@ -111,7 +111,7 @@ cmanager_label: [OCP_POST-CMANAGER]
 # to disable operator choose absent
 # disabling operator doesnt remove the certificates
 cmanager_state: present
-cmanager_chart_version: v0.13.1
+cmanager_chart_version: v1.5.3
 ocp4_dnszone: '{{ cluster_name }}.{{ ocp4_base_domain }}'
 
 ### Extra DevOps Or RH Tools
@@ -119,7 +119,7 @@ ocp4_dnszone: '{{ cluster_name }}.{{ ocp4_base_domain }}'
 # ArgoCD
 argocd: True
 argoclient: False
-argocd_version: v1.6.0
+argocd_version: v1.8.7
 
 # ServiceMesh
 service_mesh: False

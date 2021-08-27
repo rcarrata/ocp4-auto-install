@@ -1,0 +1,15 @@
+---
+- name: '[OCP4-AUTO-INSTALL] Configure an Openshift4 cluster'
+  hosts: localhost
+  connection: local
+  vars_files:
+    - vars/vars.yml
+  tasks:
+    # TODO: Use operator instead
+    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL][ARGOCD] Configure ArgoCD '
+      include_role:
+        name: "ocp4-post-argocd"
+      when:
+        - argocd is defined
+        - argocd | bool
+

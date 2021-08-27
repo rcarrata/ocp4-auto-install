@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+    name: {{ item.route_name }}-cert-managed
+    namespace: openshift-ingress
+    labels:
+        router_name: {{ item.route_name }}
+spec:
+    secretName: {{ item.route_name }}-cert-manager
+    issuerRef:
+        name: letsencrypt-aws
+        kind: Issuer
+    dnsNames:
+      - "*.{{  item.hostname }}"

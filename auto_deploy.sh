@@ -3,4 +3,4 @@
 echo "Welcome to OCP4 Auto install"
 echo "Executing Ansible Playbooks..."
 
-ansible-playbook -i localhost --password-file .password-file deploy_all.yml
+ansible-playbook -i localhost --vault-password-file .vault-password-file deploy_all.yml

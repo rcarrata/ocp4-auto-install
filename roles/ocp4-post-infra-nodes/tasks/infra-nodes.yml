@@ -21,3 +21,59 @@
     name_identifier: "{{ infra_label }}"
   include_role:
     name: ocp4-post-machinesets
+
+- name: '[POSTINSTALL][INFRA-NODES] Wait for Infra Nodes to be available'
+  k8s_facts:
+    kubeconfig: "{{ kubeconfig }}"
+    api_version: v1
+    kind: Node
+    label_selectors:
+    - node-role.kubernetes.io/infra =
+  register: r_infra_nodes
+  until:
+  - r_infra_nodes.resources | length | int == infra_node_replicas | int
+  delay: 30
+  retries: 15
+
+- name: '[POSTINSTALL][INFRA-NODES] Get ClusterVersion'
+  k8s_info:
+    kubeconfig: "{{ kubeconfig }}"
+    api_version: config.openshift.io/v1
+    kind: ClusterVersion
+    name: version
+  register: r_cluster_version
+
+- name: '[POSTINSTALL][INFRA-NODES] Set ocp4_workload_machinesets_cluster_version fact'
+  set_fact:
+    ocp4_workload_machinesets_cluster_version: "{{ r_cluster_version.resources[0].status.history[0].version }}"
+
+# The Machine Config Daemon DaemonSet does not include
+# Universal Tolerations. So by adding taints to Infra
+# (and Elasticsearch) nodes the Machine Config Daemon
+# pods would be removed from those nodes.
+# This adds the necessary tolerations.
+#
+# See https://bugzilla.redhat.com/show_bug.cgi?id=1780318
+- name: '[POSTINSTALL][INFRA-NODES] Fix Machine Config and Node CA Daemon Sets (add Tolerations for Infra and Elasticsearch nodes)'
+  when: ocp4_workload_machinesets_cluster_version is version_compare('4.5', '<')
+  k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    merge_type:
+    - merge
+    definition: "{{ lookup('template', '{{ item }}') }}"
+  loop:
+  - ./templates/machine-config-daemonset.j2
+  - ./templates/node-ca-daemonset.j2
+
+- name: '[POSTINSTALL][INFRA-NODES] Configure Ingress Controllers and Image Registry'
+  when: ocp4_workload_machinesets_cluster_version is version_compare('4.5', '<')
+  k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    merge_type:
+    - merge
+    definition: "{{ lookup('template', '{{ item }}') }}"
+  loop:
+  - ./templates/ingress-controller.j2
+  - ./templates/image-registry.j2

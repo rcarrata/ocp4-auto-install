@@ -10,6 +10,15 @@
     path: "{{ user_path }}/.ssh"
     state: directory
 
+- name: '[INSTALL_CONFIG] [PREREQS] Copy python prerequisites file'
+  copy:
+    src: ./requirements.txt
+    dest: "{{ user_path }}/requirements.txt"
+
+- name: '[INSTALL_CONFIG] [PREREQS] Install python prerequisites'
+  pip:
+    requirements: "{{ user_path }}/requirements.txt"
+
 - name: '[INSTALL_CONFIG] Generate SSH keys'
   openssh_keypair:
     type: ed25519

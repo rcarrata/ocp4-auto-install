@@ -14,6 +14,7 @@
         - awscli
       when:
         - only_post_install != True
+        - prereqs == True
 
     - name: '[OCP4-AUTO-INSTALL][INSTALL] Installation of the OCP4 Cluster'
       include_role:

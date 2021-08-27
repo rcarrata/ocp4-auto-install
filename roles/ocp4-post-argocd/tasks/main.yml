@@ -13,25 +13,84 @@
     path: "{{ user_path }}/argocd"
     state: directory
 
-- name: '[POSTINSTALL][ARGOCD] Download argocd install.yaml'
-  get_url:
-    url: https://raw.githubusercontent.com/argoproj/argo-cd/{{argocd_version}}/manifests/install.yaml
-    dest: "{{ user_path}}/argocd/"
-  register: argocd_download
+#- name: '[POSTINSTALL][ARGOCD] Download argocd install.yaml'
+#  get_url:
+#    url: https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+#    dest: "{{ user_path}}/argocd/"
+#  register: argocd_download
 
 - name: '[POSTINSTALL][ARGOCD] Download argocd client'
   get_url:
-    url: https://github.com/argoproj/argo-cd/releases/download/{{argocd_version}}/argocd-linux-amd64
+    url: https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
     dest: "{{ user_path}}/argocd/"
   register: argocd_client
   when: argoclient | bool
 
-- name: '[POSTINSTALL][ARGOCD] Create Objects'
+#- name: '[POSTINSTALL][ARGOCD] Create Objects'
+#  k8s:
+#    kubeconfig: "{{ kubeconfig }}"
+#    state: present
+#    namespace: argocd
+#    src: "{{ argocd_download.dest }}"
+
+- name: '[POSTINSTALL][ARGOCD] Create Argocd Namespace'
   k8s:
     kubeconfig: "{{ kubeconfig }}"
     state: present
-    namespace: argocd
-    src: "{{ argocd_download.dest }}"
+    definition: "{{ lookup('template', 'argo-ns.yaml') }}"
+
+- name: '[POSTINSTALL][ARGOCD] Create Argocd OperatorGroup'
+  k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition: "{{ lookup('template', 'argo-og.yaml') }}"
+
+# Grab the CLO Channel if is not defined in vars.yml
+- name: '[POSTINSTALL][LOGGING] Get available Argo channels'
+  k8s_facts:
+    kubeconfig: "{{ kubeconfig }}"
+    name: "argocd-operator"
+    kind: "PackageManifest"
+    namespace: "argocd"
+  register: argo_manifest
+
+- debug:
+    msg: "{{ argo_manifest }}"
+
+- name: '[POSTINSTALL][LOGGING] Set local var'
+  set_fact:
+     argo_channel: "{{ argo_manifest.resources[0].status.channels[0].currentCSV }}"
+
+- debug:
+    msg: "{{ argo_channel }}"
+
+- name: '[POSTINSTALL][ARGOCD] Create Argocd Subs'
+  k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition: "{{ lookup('template', 'argo-sub.yaml') }}"
+
+- name: '[POSTINSTALL][ARGOCD]Wait for ArgoCD CRD to exist'
+  k8s_facts:
+    kubeconfig: "{{ kubeconfig }}"
+    api_version: "apiextensions.k8s.io/v1"
+    kind: CustomResourceDefinition
+    name: "{{ item }}"
+  loop:
+    - argocds.argoproj.io
+    - argocdexports.argoproj.io
+    - applications.argoproj.io
+    - appprojects.argoproj.io
+  register: crds
+  until: crds.resources|length > 0
+  retries: 30
+  delay: 10
+
+- name: '[POSTINSTALL][ARGOCD] Create Argocd Subs'
+  k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition: "{{ lookup('template', 'argo-install.yaml') }}"
 
 - name: '[POSTINSTALL][ARGOCD] Create route for Argocd Server'
   k8s:

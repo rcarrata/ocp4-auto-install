@@ -1,6 +1,8 @@
 ---
 
-- name: Create Namespaces
+#https://docs.openshift.com/container-platform/4.5/operators/olm-adding-operators-to-cluster.html#olm-installing-operator-from-operatorhub-using-cli_olm-adding-operators-to-a-cluster
+
+- name: '[POSTINSTALL][LOGGING] Create Namespaces'
   k8s:
     kubeconfig: "{{ kubeconfig }}"
     state: present
@@ -9,13 +11,21 @@
   - eo-namespace.yaml
   - clo-namespace.yaml
 
-- name: Create Operator Group
+### ElasticSearch Operator
+
+# An OperatorGroup is an OLM resource that selects target namespaces in which to generate required
+# RBAC access for all Operators in the same namespace as the OperatorGroup
+# The namespace to which you subscribe the Operator must have an OperatorGroup that matches the
+# Operator’s InstallMode
+- name: '[POSTINSTALL][LOGGING] Create Operator Group'
   k8s:
     kubeconfig: "{{ kubeconfig }}"
     state: present
     definition: "{{ lookup('file', 'eo-og.yaml') }}"
 
-- name: Get available ES channels
+# PackageManifest holds information about a package, which is a reference to
+# one (or more) channels under a single package.
+- name: '[POSTINSTALL][LOGGING] Get available ES channels'
   k8s_facts:
     kubeconfig: "{{ kubeconfig }}"
     name: "elasticsearch-operator"
@@ -24,40 +34,45 @@
   register: es_manifest
   when: es_channel is not defined
 
-- name: set local var
+# Grab the ES Channel if is not defined in vars.yml
+- name: '[POSTINSTALL][LOGGING] Set local var'
   set_fact:
      es_channel: "{{ es_manifest.resources[0].status.defaultChannel }}"
   when: es_channel is not defined
+
 #- name: Subscribing on channel {{ es_channel }}
 # K8s module does not handle generateName correctly, so we use oc client
 #  k8s:
 #    kubeconfig: "{{ kubeconfig }}"
 #    state: present
 #    definition: "{{ lookup('template', 'eo-sub.yaml') }}"
-#
-- name: Upload file
+
+- name: '[POSTINSTALL][LOGGING] Create file'
   template:
     src: eo-sub.yaml
     dest: /tmp/eo-sub.yaml
     mode: '0600'
 
-- name: Subscribing ES on channel {{ es_channel }}
+- name: '[POSTINSTALL][LOGGING] Subscribing ES on channel {{ es_channel }}'
   shell:
-    cmd: KUBECONFIG={{ kubeconfig }} {{ oc_exec }} create -f /tmp/eo-sub.yaml
+    cmd: KUBECONFIG={{ kubeconfig }} {{ user_path }}/oc create -f /tmp/eo-sub.yaml
 
-- name: Create RBAC
+- name: '[POSTINSTALL][LOGGING] Create RBAC'
   k8s:
     kubeconfig: "{{ kubeconfig }}"
     state: present
     definition: "{{ lookup('file', 'eo-rbac.yaml') }}"
 
-- name: Create CLO-OperatorGroup
+
+### ClusterLogging Operator
+- name: '[POSTINSTALL][LOGGING] Create CLO-OperatorGroup'
   k8s:
     kubeconfig: "{{ kubeconfig }}"
     state: present
     definition: "{{ lookup('file', 'clo-og.yaml') }}"
 
-- name: Get available CLO channels
+# Grab the CLO Channel if is not defined in vars.yml
+- name: '[POSTINSTALL][LOGGING] Get available CLO channels'
   k8s_facts:
     kubeconfig: "{{ kubeconfig }}"
     name: "cluster-logging"
@@ -66,12 +81,12 @@
   register: clo_manifest
   when: clo_channel is not defined
 
-- name: set local var
+- name: '[POSTINSTALL][LOGGING] Set local var'
   set_fact:
      clo_channel: "{{ clo_manifest.resources[0].status.defaultChannel }}"
   when: clo_channel is not defined
 
-- name: Create CLO-Subscription on channel {{ clo_channel }}
+- name: '[POSTINSTALL][LOGGING] Create CLO-Subscription on channel {{ clo_channel }}'
   k8s:
     kubeconfig: "{{ kubeconfig }}"
     state: present

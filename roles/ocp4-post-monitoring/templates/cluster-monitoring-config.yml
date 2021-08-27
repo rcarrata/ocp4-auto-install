@@ -41,4 +41,3 @@ data:
     k8sPrometheusAdapter:
       nodeSelector:
         node-role.kubernetes.io/infra: ""
-

@@ -1,12 +1,16 @@
 ---
 # defaults file for ocp4-post-project-template-request
 
-become_override: False
-ocp_username: opentlc-mgr
-silent: False
+#become_override: False
+#ocp_username: opentlc-mgr
+#silent: False
 
-# Added in vars.yml files
-#ocp4_workload_project_request_template_project_limits:
+# Added in vars/vars.yml files
+#
+#install_limit_range: True
+#install_network_policies: True
+#install_resource_quota: True
+#project_request_template_project_limits:
 #  - type: Container
 #    max:
 #      cpu: 2
@@ -21,5 +25,10 @@ silent: False
 #    max:
 #      cpu: 2
 #      memory: 4Gi
-#install_limit_range: True
-#install_network_policies: True
+#project_request_template_resource_quota:
+#  pods: 10
+#  requests.cpu: 4000m
+#  requests.memory: 8Gi
+#  resourcequotas: 1
+#  requests.storage: 50Gi
+#  persistentvolumeclaims: 5

@@ -5,5 +5,5 @@
 - import_tasks: router.yml
   when: infra_nodes | bool
 
-- import_tasks: ingress.yml
+  #- import_tasks: ingress.yml
 

@@ -1,8 +1,8 @@
 ---
 
-- name: '[INSTALL_CONFIG] Install in background tmux, run <<tmux a>> to monitor'
+- name: '[INSTALL_CONFIG] Installing Openshift Cluster...'
   shell:
-    cmd: "nohup {{ user_path }}/openshift-install create cluster --dir {{ user_path }} </dev/null >/dev/null 2>&1 &"
+    cmd: "{{ user_path }}/openshift-install create cluster --dir {{ user_path }} --log-level debug"
     creates: "{{ user_path }}/auth"
 
 - name: '[INSTALL_CONFIG] Check pid of openshift-install'
@@ -14,12 +14,7 @@
   wait_for:
     path: "{{ user_path }}/auth/kubeconfig"
     state: present
-    timeout: 3600
-
-    #- name: Wait for initial setup
-    #  pause:
-    #    prompt: Waiting for the initial creation of cluser {{cluster_name}}
-    #    seconds: 60
+    timeout: 5400
 
 - name: '[INSTALL_CONFIG] Wait for the Bootstrap'
   shell:
@@ -33,4 +28,23 @@
   copy:
     src: "{{ user_path }}/auth/kubeconfig"
     dest: "{{ local_kubeconfig }}"
+  when:
+    - local_kubeconfig is defined
+
+- name: '[INSTALL_CONFIG] Gzip Install files'
+  archive:
+    path: "{{ user_path }}/{{ item }}"
+    dest: "{{ tower_path }}/{{ cluster_name }}-{{ ocp_cluster }}-install.gz"
+    format: gz
+  loop:
+    - .openshift_install_state.json
+    - .openshift_install.log
+    - terraform.tfvars.json
+    - terraform.tfstate
+    - metadata.json
+    - terraform.aws.auto.tfvars.json
+    - openshift-install
+  when:
+    - tower_used is defined
+    - tower_used | bool
 

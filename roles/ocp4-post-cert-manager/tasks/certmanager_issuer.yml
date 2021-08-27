@@ -1,0 +1,9 @@
+
+- name: '{{ cmanager_label }} Install Issuer DNS challenger'
+  k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition: "{{ lookup('template', item ) | from_yaml }}"
+  loop:
+  - ./templates/issuer.yml.j2
+

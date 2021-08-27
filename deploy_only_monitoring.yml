@@ -4,7 +4,6 @@
   connection: local
   vars_files:
     - vars/vars.yml
-    - vault/vault.yml
   tasks:
     - name: '[OCP4-AUTO-INSTALL][POST-INSTALL] Configure Monitoring'
       include_role:

@@ -1,0 +1,28 @@
+apiVersion: cloudcredential.openshift.io/v1
+kind: CredentialsRequest
+metadata:
+  name: certmanager
+  namespace: openshift-cloud-credential-operator
+spec:
+  secretRef:
+    name: certmanager-aws-key
+    namespace: openshift-ingress
+  providerSpec:
+    apiVersion: cloudcredential.openshift.io/v1
+    kind: AWSProviderSpec
+    statementEntries:
+    - effect: Allow
+      action:
+      - route53:GetChange
+      resource: "arn:aws:route53:::change/*"
+    - effect: Allow
+      action:
+      - route53:ChangeResourceRecordSets
+      - route53:ListResourceRecordSets 
+      resource: "arn:aws:route53:::hostedzone/*" 
+    - effect: Allow
+      action:
+      - route53:ListHostedZonesByName
+      - route53:ListHostedZones
+      resource: "*"
+

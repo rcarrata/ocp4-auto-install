@@ -1,0 +1,13 @@
+---
+- name: '[OCP4-AUTO-INSTALL] Remove an Openshift4 cluster'
+  hosts: localhost
+  connection: local
+  vars_files:
+    - vars/vars.yml
+  tasks:
+    - name: '[UNINSTALL] Uninstall of the OCP4 Cluster'
+      include_role:
+        name: "ocp4-uninstall"
+      when:
+        - uninstall_ocp is defined
+        - uninstall_ocp | bool

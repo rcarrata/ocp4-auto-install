@@ -1,0 +1,17 @@
+---
+
+- name: Test certificates Retries 5 times every 30 seconds
+  k8s_info:
+    api_version: cert-manager.io/v1alpha2
+    kubeconfig: "{{ kubeconfig }}"
+    kind: certificate
+    namespace: openshift-ingress
+  retries: 10
+  delay: 30
+  register: web_service
+  until: web_service.resources.0.status.conditions.0.status == 'True'
+
+- debug:
+    msg: "match to true"
+  when: item.status.conditions.0.status is match('True')
+  with_items: "{{ web_service.resources }}" 

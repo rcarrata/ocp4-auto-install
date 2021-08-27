@@ -10,12 +10,5 @@ spec:
     issuerRef:
         name: letsencrypt-aws
         kind: Issuer
-    commonName: "*.{{  item.hostname }}"
     dnsNames:
-    - "*.{{  item.hostname }}"
-    acme:
-    config:
-    - dns01:
-        provider: dns
-        domains:
-        - "*.{{  item.hostname }}"
+      - "*.{{  item.hostname }}"

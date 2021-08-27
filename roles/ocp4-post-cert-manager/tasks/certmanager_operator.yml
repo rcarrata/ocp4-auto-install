@@ -17,6 +17,19 @@
     K8S_AUTH_CONTEXT: "{{ kubeconfig }}"
 
 
+- name: "{{ cmanager_label }} Get certmanager CRDs"
+  get_url:
+    url:  "https://github.com/jetstack/cert-manager/releases/download/{{ cmanager_chart_version }}/cert-manager.crds.yaml"
+    dest: "{{user_path}}/certMancrd.yaml"
+
+
+- name: "{{ cmanager_label }} Add certmanager CRDs"
+  k8s:
+    kubeconfig: "{{ kubeconfig }}"
+    state: present
+    definition: "{{ lookup('file', '{{user_path}}/certMancrd.yaml') }}"
+
+
 - name: '{{ cmanager_label }} Deploy certmanager'
   community.kubernetes.helm:
     kubeconfig: "{{ kubeconfig }}"
@@ -34,7 +47,7 @@
   pause:
     seconds: 30
 
-- name: '{{ cmanager_label }} Reach Dns Challengue adding dns nameserver'
+- name: '{{ cmanager_label }} Reach Dns Challenge adding dns nameserver'
   k8s:
     kubeconfig: "{{ kubeconfig }}"
     api_version: apps/v1

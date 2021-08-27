@@ -1,2 +1,4 @@
 openshift
 psutil
+boto3
+botocore

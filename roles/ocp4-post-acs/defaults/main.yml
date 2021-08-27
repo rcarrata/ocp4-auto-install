@@ -1,0 +1,5 @@
+become_override: false
+ocp_username: kubeadmin
+
+#stackrox_central_admin_password: IM_IN_VAULT
+

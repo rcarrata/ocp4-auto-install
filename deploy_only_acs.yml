@@ -1,0 +1,28 @@
+---
+- name: '[OCP4-AUTO-INSTALL] Install the StackRox Central'
+  hosts: localhost
+  connection: local
+  vars_files:
+    - vars/vars.yml
+    - vault/vault.yml
+  tasks:
+    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL][ACS] Install the StackRox Central'
+      include_role:
+        name: "ocp4-post-acs"
+      when:
+        - acs is defined
+        - acs | bool
+
+- name: '[OCP4-AUTO-INSTALL]  Install StackRox Sensor Demo'
+  hosts: localhost
+  connection: local
+  vars_files:
+    - vars/vars.yml
+    - vault/vault.yml
+  tasks:
+    - name: '[OCP4-AUTO-INSTALL][POST-INSTALL][ACS] Install StackRox Sensor Demo'
+      include_role:
+        name: "ocp4-post-acs-demo"
+      when:
+        - acs_demo is defined
+        - acs_demo | bool

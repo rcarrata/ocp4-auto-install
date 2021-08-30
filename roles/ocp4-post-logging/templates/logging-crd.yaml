@@ -8,7 +8,7 @@ spec:
   logStore:
     type: "elasticsearch"
     elasticsearch:
-      nodeCount: 1
+      nodeCount: 2
       storage:
         storageClassName: gp2
         size: 200G

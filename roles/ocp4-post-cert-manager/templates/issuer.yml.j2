@@ -1,4 +1,4 @@
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
   name: letsencrypt-aws
@@ -10,7 +10,8 @@ spec:
     privateKeySecretRef:
       name: issuer
     solvers:
-      - dns01:
+      - selector: {}
+        dns01:
           route53:
             region: {{ cmanager_aws_region }}
             accessKeyID: {{ aws_access_key_id }}

@@ -2,7 +2,7 @@
 
 - name: Test certificates Retries 5 times every 30 seconds
   k8s_info:
-    api_version: cert-manager.io/v1alpha2
+    api_version: cert-manager.io/v1
     kubeconfig: "{{ kubeconfig }}"
     kind: certificate
     namespace: openshift-ingress

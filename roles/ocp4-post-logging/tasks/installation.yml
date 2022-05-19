@@ -26,7 +26,7 @@
 # PackageManifest holds information about a package, which is a reference to
 # one (or more) channels under a single package.
 - name: '[POSTINSTALL][LOGGING] Get available ES channels'
-  k8s_facts:
+  k8s_info:
     kubeconfig: "{{ kubeconfig }}"
     name: "elasticsearch-operator"
     kind: "PackageManifest"
@@ -73,7 +73,7 @@
 
 # Grab the CLO Channel if is not defined in vars.yml
 - name: '[POSTINSTALL][LOGGING] Get available CLO channels'
-  k8s_facts:
+  k8s_info:
     kubeconfig: "{{ kubeconfig }}"
     name: "cluster-logging"
     kind: "PackageManifest"

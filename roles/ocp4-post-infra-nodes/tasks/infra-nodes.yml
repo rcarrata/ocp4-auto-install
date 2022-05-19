@@ -1,7 +1,7 @@
 ---
 
 - name: '[POSTINSTALL][INFRA-NODES] Grab some global cluster trivia for git to use'
-  k8s_facts:
+  k8s_info:
     kubeconfig: "{{ kubeconfig }}"
     api_version: config.openshift.io/v1
     kind: Infrastructure
@@ -23,7 +23,7 @@
     name: ocp4-post-machinesets
 
 - name: '[POSTINSTALL][INFRA-NODES] Wait for Infra Nodes to be available'
-  k8s_facts:
+  k8s_info:
     kubeconfig: "{{ kubeconfig }}"
     api_version: v1
     kind: Node

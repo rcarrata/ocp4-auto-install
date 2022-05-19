@@ -1,7 +1,7 @@
 ---
 
 - name: '[POSTINSTALL][INFRA-NODES] Grab some global cluster trivia for git to use'
-  k8s_facts:
+  k8s_info:
     kubeconfig: "{{ kubeconfig }}"
     api_version: config.openshift.io/v1
     kind: Infrastructure
@@ -24,7 +24,7 @@
 
 - name: '[POSTINSTALL][INFRA-NODES] Wait for Elasticsearch Nodes to be available'
   when: _infra_node_elasticsearch_nodes | d(False) | bool
-  k8s_facts:
+  k8s_info:
     api_version: v1
     kind: Node
     label_selectors:

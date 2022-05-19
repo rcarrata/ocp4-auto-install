@@ -9,7 +9,7 @@
   register: infradata
 
 - name: '[POSTINSTALL][WORKER-NODES] Capture nodes'
-  k8s_facts:
+  k8s_info:
     kubeconfig: "{{ kubeconfig }}"
     kind: Node
   register: nodedata

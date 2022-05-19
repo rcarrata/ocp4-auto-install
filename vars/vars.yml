@@ -95,7 +95,7 @@ project_request_template_resource_quota:
 cmanager: true
 cmanager_namespace: cert-manager
 cmanager_aws_region: eu-west-1
-cmanager_email_admin: certmanager@nacanare.com
+cmanager_email_admin: rcarrata@redhat.com
 cmanager_nodeselector: worker
 cmanager_aws_role_name: ocp_cert_manager
 cmanager_aws_user: ocp_cert_manager
@@ -117,7 +117,7 @@ ocp4_dnszone: '{{ cluster_name }}.{{ ocp4_base_domain }}'
 ### Extra DevOps Or RH Tools
 
 # ArgoCD
-argocd: False
+argocd: True
 argoclient: False
 argocd_version: v1.8.7
 

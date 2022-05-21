@@ -1,4 +1,4 @@
-apiVersion: cert-manager.io/v1alpha2
+apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
     name: {{ item.route_name }}-cert-managed
@@ -9,6 +9,5 @@ spec:
     secretName: {{ item.route_name }}-cert-manager
     issuerRef:
         name: letsencrypt-aws
-        kind: Issuer
     dnsNames:
       - "*.{{  item.hostname }}"

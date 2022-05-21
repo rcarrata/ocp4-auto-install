@@ -19,7 +19,7 @@
     - node.metadata.labels['node-role.kubernetes.io/infra'] is not defined
 
 - name: '[POSTINSTALL][WORKER-NODES] Grab the machinesets'
-  k8s_facts:
+  k8s_info:
     kubeconfig: "{{ kubeconfig }}"
     api_version: machine.openshift.io/v1beta1
     kind: MachineSet
